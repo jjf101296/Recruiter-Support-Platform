@@ -1,27 +1,34 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
-import { Search, FileCheck, Map, StampIcon as Passport, FileText, Plane, ArrowRight } from "lucide-react"
+import { Search, FileCheck, Map, StampIcon as Passport, FileText, Plane, ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 to-white">
       <Header />
 
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12">
           <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              Welcome to
-              <br />
-              Recruiter Support Platform
-            </h1>
-            <h2 className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
+            <div className="relative mb-6">
+              <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-20 animate-pulse-slow"></div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 relative">
+                <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent animate-gradient">
+                  Welcome to
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent animate-gradient-slow">
+                  Recruiter Support Platform
+                </span>
+              </h1>
+            </div>
+            <h2 className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto animate-slide-up">
               A comprehensive suite of tools designed to help recruiters find the right candidates faster.
             </h2>
-            <div className="mt-6">
+            <div className="mt-6 animate-fade-in-delay">
               <p className="text-gray-500">
                 Created by{" "}
                 <Link
@@ -40,9 +47,11 @@ export default function Home() {
           </div>
 
           <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center mb-10">Available Tools</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-blue-500">
+            <h3 className="text-2xl font-bold text-center mb-10 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Available Tools
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-blue-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
                   <CardTitle className="flex items-center gap-2 text-blue-700">
                     <Search className="h-5 w-5" />
@@ -50,7 +59,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Create optimized search strings for candidate sourcing</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-blue-500 mt-1">•</span>
@@ -67,15 +76,20 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 group"
+                  >
                     <Link href="/boolean-search" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-green-500">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-green-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-green-50 to-green-100">
                   <CardTitle className="flex items-center gap-2 text-green-700">
                     <FileCheck className="h-5 w-5" />
@@ -83,7 +97,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Optimize resumes for Applicant Tracking Systems</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-green-500 mt-1">•</span>
@@ -100,15 +114,20 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-green-600 hover:bg-green-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 group"
+                  >
                     <Link href="/ats-checker" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-green-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-purple-500">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-purple-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
                   <CardTitle className="flex items-center gap-2 text-purple-700">
                     <Map className="h-5 w-5" />
@@ -116,7 +135,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Interactive map of all 50 US states by time zone</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-purple-500 mt-1">•</span>
@@ -133,15 +152,20 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-purple-600 hover:bg-purple-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 group"
+                  >
                     <Link href="/us-map" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-purple-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-amber-500">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-amber-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100">
                   <CardTitle className="flex items-center gap-2 text-amber-700">
                     <Passport className="h-5 w-5" />
@@ -149,7 +173,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Comprehensive guide to US visa categories</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-amber-500 mt-1">•</span>
@@ -166,15 +190,20 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-amber-600 hover:bg-amber-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 group"
+                  >
                     <Link href="/visa-types" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-amber-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-red-500">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-red-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-red-50 to-red-100">
                   <CardTitle className="flex items-center gap-2 text-red-700">
                     <FileText className="h-5 w-5" />
@@ -182,7 +211,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Essential tax information for recruiters and job seekers</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-red-500 mt-1">•</span>
@@ -199,15 +228,20 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-red-600 hover:bg-red-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 group"
+                  >
                     <Link href="/tax-terms" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-red-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-t-4 border-cyan-500">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border-t-4 border-cyan-500 h-full transform hover:-translate-y-2">
                 <CardHeader className="bg-gradient-to-r from-cyan-50 to-cyan-100">
                   <CardTitle className="flex items-center gap-2 text-cyan-700">
                     <Plane className="h-5 w-5" />
@@ -215,7 +249,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>Access and verify travel records and I-94 information</CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-6 flex-grow">
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <span className="text-cyan-500 mt-1">•</span>
@@ -232,9 +266,14 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button asChild className="w-full bg-cyan-600 hover:bg-cyan-700">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 group"
+                  >
                     <Link href="/i94-history" className="flex items-center justify-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool{" "}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <Sparkles className="h-4 w-4 text-cyan-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Link>
                   </Button>
                 </CardFooter>

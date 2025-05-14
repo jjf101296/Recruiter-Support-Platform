@@ -520,10 +520,10 @@ export default function USMap() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-grow bg-gradient-to-b from-blue-50 to-white">
+      <main className="flex-grow bg-gradient-to-b from-purple-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
               US States by Time Zone
             </h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
@@ -532,11 +532,11 @@ export default function USMap() {
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} />
+            <ToolsNavigation showHomeLink={true} showTools={false} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-1">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="lg:col-span-1 animate-fade-in">
               <Card className="shadow-lg h-full border-t-4 border-purple-500">
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
                   <CardTitle className="flex items-center gap-2 text-purple-700">
@@ -562,10 +562,10 @@ export default function USMap() {
                           {zone.states.map((state) => (
                             <button
                               key={state.abbr}
-                              className={`p-3 rounded-lg text-center transition-all ${
+                              className={`p-3 rounded-lg text-center transition-all duration-300 ${
                                 selectedState?.abbr === state.abbr
-                                  ? "bg-purple-600 text-white"
-                                  : "bg-white hover:bg-purple-50 border border-gray-200"
+                                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md"
+                                  : "bg-white hover:bg-purple-50 border border-gray-200 hover:shadow-md"
                               }`}
                               onClick={() => setSelectedState(state)}
                             >
@@ -581,7 +581,7 @@ export default function USMap() {
               </Card>
             </div>
 
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 animate-fade-in-delay">
               {selectedState ? (
                 <Card className="shadow-lg h-full">
                   <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
@@ -592,13 +592,13 @@ export default function USMap() {
                           {selectedState.abbr} - Click on another state to view its details
                         </CardDescription>
                       </div>
-                      <div className="text-5xl font-bold">{selectedState.abbr}</div>
+                      <div className="text-5xl font-bold animate-float">{selectedState.abbr}</div>
                     </div>
                   </CardHeader>
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <MapPin className="text-red-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Capital</h3>
@@ -606,7 +606,7 @@ export default function USMap() {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <Landmark className="text-blue-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Governor</h3>
@@ -614,7 +614,7 @@ export default function USMap() {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <Trophy className="text-yellow-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Sports Teams</h3>
@@ -624,7 +624,7 @@ export default function USMap() {
                       </div>
 
                       <div className="space-y-4">
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <Users className="text-green-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Population</h3>
@@ -632,7 +632,7 @@ export default function USMap() {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <Building2 className="text-purple-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Major Companies</h3>
@@ -640,7 +640,7 @@ export default function USMap() {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
                           <Briefcase className="text-indigo-500 h-5 w-5 mt-1" />
                           <div>
                             <h3 className="font-semibold">Key Industries</h3>
@@ -676,7 +676,7 @@ export default function USMap() {
               ) : (
                 <Card className="shadow-lg h-full flex items-center justify-center p-8 border-t-4 border-purple-500">
                   <div className="text-center">
-                    <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4" />
+                    <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4 animate-float" />
                     <h3 className="text-xl font-semibold text-purple-600 mb-2">Select a State</h3>
                     <p className="text-gray-500 max-w-md">
                       Click on any state from the list on the left to view detailed information about that state.
