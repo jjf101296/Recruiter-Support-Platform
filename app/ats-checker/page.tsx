@@ -89,7 +89,7 @@ export default function ATSChecker() {
       <main className="flex-grow bg-gradient-to-b from-green-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
               AI ATS Resume Checker
             </h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
@@ -98,11 +98,11 @@ export default function ATSChecker() {
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} showTools={false} />
+            <ToolsNavigation showHomeLink={true} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <div className="space-y-6 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
               <Card className="shadow-lg border-t-4 border-green-500">
                 <CardHeader className="bg-gradient-to-r from-green-50 to-green-100">
                   <CardTitle className="flex items-center gap-2 text-green-700">
@@ -197,7 +197,7 @@ export default function ATSChecker() {
                     <Button
                       onClick={analyzeResume}
                       disabled={!jobDescription || !resume || isLoading}
-                      className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600"
+                      className="bg-green-600 hover:bg-green-700"
                     >
                       {isLoading ? (
                         <>
@@ -225,7 +225,7 @@ export default function ATSChecker() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-center mb-4">
-                      <div className="text-5xl font-bold mb-2 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
+                      <div className="text-5xl font-bold mb-2 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                         {mockAnalysisResult.matchScore}%
                       </div>
                       <Progress

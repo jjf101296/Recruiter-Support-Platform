@@ -115,7 +115,7 @@ export default function BooleanSearch() {
       <main className="flex-grow bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent animate-gradient">
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               AI Boolean Search String Generator
             </h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
@@ -124,11 +124,11 @@ export default function BooleanSearch() {
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} showTools={false} />
+            <ToolsNavigation showHomeLink={true} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <Card className="shadow-lg border-t-4 border-blue-500 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card className="shadow-lg border-t-4 border-blue-500">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
                 <CardTitle className="flex items-center gap-2 text-blue-700">
                   <FileText className="h-5 w-5" />
@@ -178,7 +178,7 @@ export default function BooleanSearch() {
                   <Button
                     onClick={analyzeJobDescription}
                     disabled={!jobDescription || isLoading}
-                    className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600"
+                    className="bg-blue-600 hover:bg-blue-700"
                   >
                     {isLoading ? (
                       <>
@@ -292,7 +292,7 @@ export default function BooleanSearch() {
                       <div className="mt-6">
                         <h3 className="font-semibold mb-3">Platform-Specific Formats</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          <Card className="border border-blue-200 hover:shadow-md transition-all duration-300">
+                          <Card className="border border-blue-200">
                             <CardHeader className="py-3">
                               <CardTitle className="text-sm">LinkedIn</CardTitle>
                             </CardHeader>
@@ -301,7 +301,7 @@ export default function BooleanSearch() {
                             </CardContent>
                           </Card>
 
-                          <Card className="border border-blue-200 hover:shadow-md transition-all duration-300">
+                          <Card className="border border-blue-200">
                             <CardHeader className="py-3">
                               <CardTitle className="text-sm">Dice</CardTitle>
                             </CardHeader>
@@ -310,7 +310,7 @@ export default function BooleanSearch() {
                             </CardContent>
                           </Card>
 
-                          <Card className="border border-blue-200 hover:shadow-md transition-all duration-300">
+                          <Card className="border border-blue-200">
                             <CardHeader className="py-3">
                               <CardTitle className="text-sm">Indeed</CardTitle>
                             </CardHeader>
