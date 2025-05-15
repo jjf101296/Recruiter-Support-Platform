@@ -1,10 +1,20 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ToolsNavigation } from "@/components/tools-navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Plane, FileText, AlertCircle, CheckCircle, HelpCircle, Info, ArrowRight } from "lucide-react"
+import {
+  ExternalLink,
+  Plane,
+  FileText,
+  AlertCircle,
+  CheckCircle,
+  HelpCircle,
+  Info,
+  ArrowRight,
+  ArrowLeft,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 export default function I94History() {
   return (
@@ -14,16 +24,22 @@ export default function I94History() {
       <main className="flex-grow bg-gradient-to-b from-cyan-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-              I-94 Travel History
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-cyan-600">I-94 Travel History</h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
               Access and verify your travel records and most recent I-94 information.
             </p>
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} />
+            <Button
+              asChild
+              className="bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-700 hover:to-slate-600 text-white px-6 py-2 rounded-full shadow-md"
+            >
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft size={18} />
+                <span>Back to Home</span>
+              </Link>
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

@@ -1,6 +1,5 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ToolsNavigation } from "@/components/tools-navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -14,8 +13,11 @@ import {
   StampIcon as Passport,
   ArrowRight,
   Info,
+  ArrowLeft,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 // Mock data for demonstration
 const visaCategories = [
@@ -215,16 +217,22 @@ export default function VisaTypes() {
       <main className="flex-grow bg-gradient-to-b from-amber-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-amber-600 to-red-600 bg-clip-text text-transparent">
-              US VISA Types
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-amber-600">US VISA Types</h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
               Comprehensive guide to major US visa categories, eligibility requirements, and benefits.
             </p>
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} />
+            <Button
+              asChild
+              className="bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-700 hover:to-slate-600 text-white px-6 py-2 rounded-full shadow-md"
+            >
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft size={18} />
+                <span>Back to Home</span>
+              </Link>
+            </Button>
           </div>
 
           <Card className="shadow-lg border-t-4 border-amber-500">
@@ -251,7 +259,7 @@ export default function VisaTypes() {
                 </TabsList>
 
                 {visaCategories.map((category) => (
-                  <TabsContent key={category.id} value={category.id} className="animate-fade-in">
+                  <TabsContent key={category.id} value={category.id}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {category.visas.map((visa) => (
                         <Card

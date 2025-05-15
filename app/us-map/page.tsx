@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ToolsNavigation } from "@/components/tools-navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Building2, Users, Trophy, Landmark, MapPin, Briefcase, DollarSign } from "lucide-react"
+import { Building2, Users, Trophy, Landmark, MapPin, Briefcase, DollarSign, ArrowLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 // Complete data for all 50 states
 const timeZones = [
@@ -514,7 +514,15 @@ const timeZones = [
 ]
 
 export default function USMap() {
+  const [selectedTimeZone, setSelectedTimeZone] = useState<string>(timeZones[0].name)
   const [selectedState, setSelectedState] = useState<any>(null)
+  const [showStates, setShowStates] = useState<boolean>(false)
+
+  const handleTimeZoneClick = (zoneName: string) => {
+    setSelectedTimeZone(zoneName)
+    setShowStates(true)
+    setSelectedState(null)
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -523,65 +531,91 @@ export default function USMap() {
       <main className="flex-grow bg-gradient-to-b from-purple-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
-              US States by Time Zone
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-purple-600">US States by Time Zone</h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
               All 50 US states organized by time zone to help with scheduling and recruitment planning.
             </p>
           </div>
 
           <div className="mb-8">
-            <ToolsNavigation showHomeLink={true} showTools={false} />
+            <Button
+              asChild
+              className="bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-700 hover:to-slate-600 text-white px-6 py-2 rounded-full shadow-md"
+            >
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft size={18} />
+                <span>Back to Home</span>
+              </Link>
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="lg:col-span-1 animate-fade-in">
+            <div className="lg:col-span-1">
               <Card className="shadow-lg h-full border-t-4 border-purple-500">
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
                   <CardTitle className="flex items-center gap-2 text-purple-700">
                     <MapPin className="h-5 w-5" />
                     Time Zones
                   </CardTitle>
-                  <CardDescription>Click on a state to view detailed information</CardDescription>
+                  <CardDescription>Click on a time zone to view states</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Tabs defaultValue={timeZones[0].name} className="h-full">
-                    <TabsList className="grid grid-cols-3 mb-4">
-                      <TabsTrigger value={timeZones[0].name}>Eastern</TabsTrigger>
-                      <TabsTrigger value={timeZones[1].name}>Central</TabsTrigger>
-                      <TabsTrigger value={timeZones[2].name}>Mountain</TabsTrigger>
-                      <TabsTrigger value={timeZones[3].name}>Pacific</TabsTrigger>
-                      <TabsTrigger value={timeZones[4].name}>Alaska</TabsTrigger>
-                      <TabsTrigger value={timeZones[5].name}>Hawaii</TabsTrigger>
-                    </TabsList>
-
+                  <div className="space-y-3 py-2">
                     {timeZones.map((zone) => (
-                      <TabsContent key={zone.name} value={zone.name} className="h-[500px] overflow-y-auto">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                          {zone.states.map((state) => (
-                            <button
-                              key={state.abbr}
-                              className={`p-3 rounded-lg text-center transition-all duration-300 ${
-                                selectedState?.abbr === state.abbr
-                                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md"
-                                  : "bg-white hover:bg-purple-50 border border-gray-200 hover:shadow-md"
-                              }`}
-                              onClick={() => setSelectedState(state)}
-                            >
-                              <div className="font-bold">{state.abbr}</div>
-                              <div className="text-xs">{state.name}</div>
-                            </button>
-                          ))}
-                        </div>
-                      </TabsContent>
+                      <Button
+                        key={zone.name}
+                        variant={selectedTimeZone === zone.name ? "default" : "outline"}
+                        className={`w-full justify-start ${
+                          selectedTimeZone === zone.name ? "bg-purple-600 hover:bg-purple-700" : "hover:bg-purple-50"
+                        }`}
+                        onClick={() => handleTimeZoneClick(zone.name)}
+                      >
+                        <MapPin className="h-4 w-4 mr-2" />
+                        {zone.name}
+                        <Badge className="ml-auto">{zone.states.length}</Badge>
+                      </Button>
                     ))}
-                  </Tabs>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
-            <div className="lg:col-span-2 animate-fade-in-delay">
+            <div className="lg:col-span-2">
+              {showStates && (
+                <Card className="shadow-lg h-full border-t-4 border-purple-500 mb-6">
+                  <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
+                    <CardTitle className="flex items-center gap-2 text-purple-700">
+                      <MapPin className="h-5 w-5" />
+                      States in {selectedTimeZone}
+                    </CardTitle>
+                    <CardDescription>Click on a state to view detailed information</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 py-2">
+                      {timeZones
+                        .find((zone) => zone.name === selectedTimeZone)
+                        ?.states.map((state) => (
+                          <Button
+                            key={state.abbr}
+                            variant={selectedState?.abbr === state.abbr ? "default" : "outline"}
+                            className={`h-auto py-3 ${
+                              selectedState?.abbr === state.abbr
+                                ? "bg-purple-600 hover:bg-purple-700"
+                                : "hover:bg-purple-50"
+                            }`}
+                            onClick={() => setSelectedState(state)}
+                          >
+                            <div className="flex flex-col items-center">
+                              <span className="font-bold">{state.abbr}</span>
+                              <span className="text-xs mt-1">{state.name}</span>
+                            </div>
+                          </Button>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {selectedState ? (
                 <Card className="shadow-lg h-full">
                   <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
@@ -592,7 +626,7 @@ export default function USMap() {
                           {selectedState.abbr} - Click on another state to view its details
                         </CardDescription>
                       </div>
-                      <div className="text-5xl font-bold animate-float">{selectedState.abbr}</div>
+                      <div className="text-5xl font-bold">{selectedState.abbr}</div>
                     </div>
                   </CardHeader>
                   <CardContent className="p-6">
@@ -676,10 +710,14 @@ export default function USMap() {
               ) : (
                 <Card className="shadow-lg h-full flex items-center justify-center p-8 border-t-4 border-purple-500">
                   <div className="text-center">
-                    <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4 animate-float" />
-                    <h3 className="text-xl font-semibold text-purple-600 mb-2">Select a State</h3>
+                    <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-purple-600 mb-2">
+                      {showStates ? "Select a State" : "Select a Time Zone"}
+                    </h3>
                     <p className="text-gray-500 max-w-md">
-                      Click on any state from the list on the left to view detailed information about that state.
+                      {showStates
+                        ? "Click on any state from the list above to view detailed information about that state."
+                        : "Click on a time zone from the list on the left to view states in that time zone."}
                     </p>
                   </div>
                 </Card>
