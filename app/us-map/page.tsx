@@ -581,147 +581,149 @@ export default function USMap() {
             </div>
 
             <div className="lg:col-span-2">
-              {showStates && (
-                <Card className="shadow-lg h-full border-t-4 border-purple-500 mb-6">
-                  <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
-                    <CardTitle className="flex items-center gap-2 text-purple-700">
-                      <MapPin className="h-5 w-5" />
-                      States in {selectedTimeZone}
-                    </CardTitle>
-                    <CardDescription>Click on a state to view detailed information</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 py-2">
-                      {timeZones
-                        .find((zone) => zone.name === selectedTimeZone)
-                        ?.states.map((state) => (
-                          <Button
-                            key={state.abbr}
-                            variant={selectedState?.abbr === state.abbr ? "default" : "outline"}
-                            className={`h-auto py-3 ${
-                              selectedState?.abbr === state.abbr
-                                ? "bg-purple-600 hover:bg-purple-700"
-                                : "hover:bg-purple-50"
-                            }`}
-                            onClick={() => setSelectedState(state)}
-                          >
-                            <div className="flex flex-col items-center">
-                              <span className="font-bold">{state.abbr}</span>
-                              <span className="text-xs mt-1">{state.name}</span>
+              <div className="space-y-6">
+                {showStates && (
+                  <Card className="shadow-lg border-t-4 border-purple-500 mb-6">
+                    <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
+                      <CardTitle className="flex items-center gap-2 text-purple-700">
+                        <MapPin className="h-5 w-5" />
+                        States in {selectedTimeZone}
+                      </CardTitle>
+                      <CardDescription>Click on a state to view detailed information</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 py-2">
+                        {timeZones
+                          .find((zone) => zone.name === selectedTimeZone)
+                          ?.states.map((state) => (
+                            <Button
+                              key={state.abbr}
+                              variant={selectedState?.abbr === state.abbr ? "default" : "outline"}
+                              className={`h-auto py-3 ${
+                                selectedState?.abbr === state.abbr
+                                  ? "bg-purple-600 hover:bg-purple-700"
+                                  : "hover:bg-purple-50"
+                              }`}
+                              onClick={() => setSelectedState(state)}
+                            >
+                              <div className="flex flex-col items-center">
+                                <span className="font-bold">{state.abbr}</span>
+                                <span className="text-xs mt-1">{state.name}</span>
+                              </div>
+                            </Button>
+                          ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {selectedState ? (
+                  <Card className="shadow-lg h-full">
+                    <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <CardTitle className="text-2xl">{selectedState.name}</CardTitle>
+                          <CardDescription className="text-white/80">
+                            {selectedState.abbr} - Click on another state to view its details
+                          </CardDescription>
+                        </div>
+                        <div className="text-5xl font-bold">{selectedState.abbr}</div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <MapPin className="text-red-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Capital</h3>
+                              <p>{selectedState.capital}</p>
                             </div>
-                          </Button>
-                        ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+                          </div>
 
-              {selectedState ? (
-                <Card className="shadow-lg h-full">
-                  <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <CardTitle className="text-2xl">{selectedState.name}</CardTitle>
-                        <CardDescription className="text-white/80">
-                          {selectedState.abbr} - Click on another state to view its details
-                        </CardDescription>
-                      </div>
-                      <div className="text-5xl font-bold">{selectedState.abbr}</div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <MapPin className="text-red-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Capital</h3>
-                            <p>{selectedState.capital}</p>
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <Landmark className="text-blue-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Governor</h3>
+                              <p>{selectedState.governor}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <Trophy className="text-yellow-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Sports Teams</h3>
+                              <p>{selectedState.sports}</p>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <Landmark className="text-blue-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Governor</h3>
-                            <p>{selectedState.governor}</p>
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <Users className="text-green-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Population</h3>
+                              <p>{selectedState.population}</p>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <Trophy className="text-yellow-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Sports Teams</h3>
-                            <p>{selectedState.sports}</p>
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <Building2 className="text-purple-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Major Companies</h3>
+                              <p>{selectedState.companies}</p>
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <Users className="text-green-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Population</h3>
-                            <p>{selectedState.population}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <Building2 className="text-purple-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Major Companies</h3>
-                            <p>{selectedState.companies}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
-                          <Briefcase className="text-indigo-500 h-5 w-5 mt-1" />
-                          <div>
-                            <h3 className="font-semibold">Key Industries</h3>
-                            <p>{selectedState.industries}</p>
+                          <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                            <Briefcase className="text-indigo-500 h-5 w-5 mt-1" />
+                            <div>
+                              <h3 className="font-semibold">Key Industries</h3>
+                              <p>{selectedState.industries}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg">
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <DollarSign className="h-4 w-4 text-green-600" />
-                        Recruitment Insights
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {selectedState.name} is home to various industries and talent pools. When recruiting in this
-                        state, consider the local time zone for scheduling interviews and be aware of the major
-                        companies that might be competing for the same talent.
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">
-                          {timeZones.find((zone) => zone.states.some((s) => s.abbr === selectedState.abbr))?.name}
-                        </Badge>
-                        {selectedState.industries.split(", ").map((industry: string) => (
-                          <Badge key={industry} className="bg-blue-100 text-blue-800 hover:bg-blue-200">
-                            {industry}
+                      <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg">
+                        <h3 className="font-semibold mb-2 flex items-center gap-2">
+                          <DollarSign className="h-4 w-4 text-green-600" />
+                          Recruitment Insights
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          {selectedState.name} is home to various industries and talent pools. When recruiting in this
+                          state, consider the local time zone for scheduling interviews and be aware of the major
+                          companies that might be competing for the same talent.
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">
+                            {timeZones.find((zone) => zone.states.some((s) => s.abbr === selectedState.abbr))?.name}
                           </Badge>
-                        ))}
+                          {selectedState.industries.split(", ").map((industry: string) => (
+                            <Badge key={industry} className="bg-blue-100 text-blue-800 hover:bg-blue-200">
+                              {industry}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <Card className="shadow-lg h-full flex items-center justify-center p-8 border-t-4 border-purple-500">
+                    <div className="text-center">
+                      <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-purple-600 mb-2">
+                        {showStates ? "Select a State" : "Select a Time Zone"}
+                      </h3>
+                      <p className="text-gray-500 max-w-md">
+                        {showStates
+                          ? "Click on any state from the list above to view detailed information about that state."
+                          : "Click on a time zone from the list on the left to view states in that time zone."}
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              ) : (
-                <Card className="shadow-lg h-full flex items-center justify-center p-8 border-t-4 border-purple-500">
-                  <div className="text-center">
-                    <MapPin className="h-16 w-16 text-purple-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-purple-600 mb-2">
-                      {showStates ? "Select a State" : "Select a Time Zone"}
-                    </h3>
-                    <p className="text-gray-500 max-w-md">
-                      {showStates
-                        ? "Click on any state from the list above to view detailed information about that state."
-                        : "Click on a time zone from the list on the left to view states in that time zone."}
-                    </p>
-                  </div>
-                </Card>
-              )}
+                  </Card>
+                )}
+              </div>
             </div>
           </div>
         </div>

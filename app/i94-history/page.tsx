@@ -1,6 +1,4 @@
 "use client"
-
-import { useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
@@ -16,322 +14,11 @@ import {
   ArrowRight,
   ArrowLeft,
   Download,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
-// Sample document pages
-const documentPages = [
-  {
-    title: "Sample Passport",
-    description: "Sample passport document with annotations",
-    content: (
-      <div className="p-2 bg-gray-100 rounded-lg">
-        <div className="text-xs text-gray-500 mb-1">US Customs and Border Protection</div>
-        <div className="font-bold mb-2">UTOPIA Sample Passport</div>
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          <div>
-            <div className="font-semibold">Passport/Passeport</div>
-            <div>Type/Type: P</div>
-            <div>Country code: UTO</div>
-            <div>Passport No.: 1898902 C</div>
-          </div>
-          <div>
-            <div className="font-semibold">Personal Information</div>
-            <div>Surname: ERIKSSON</div>
-            <div>Given Names: ANNA MARIA</div>
-            <div>Nationality: UTOPIAN</div>
-            <div>Date of birth: 06 AUG 69</div>
-            <div>Sex: F</div>
-            <div>Personal No.: ZE 184226 B</div>
-            <div>Place of birth: ZENITH</div>
-          </div>
-        </div>
-        <div className="mt-2 text-xs">
-          <div>Date of issue: 24 JUN 89</div>
-          <div>Date of expiry: 23 JUN 94</div>
-          <div>Authority: PASSPORT OFFICE</div>
-        </div>
-        <div className="mt-2 p-1 bg-white text-xs font-mono">
-          POUTOERIKSSONK&lt;ANNA&lt;MARIA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-          <br />
-          L8989020&lt;3UT06908061F9406236ZE184226B&lt;&lt;&lt;&lt;&lt;14
-        </div>
-        <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <div>Date of Issuance</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <div>Country of Issuance</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <div>Last (Family) Name/Surname</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-            <div>First (Given) Name</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-            <div>Machine Readable Zone</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-            <div>Date of Expiration (YYMMDD)</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-            <div>Date of Birth (YYMMDD)</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-            <div>Passport Number</div>
-          </div>
-        </div>
-        <div className="mt-2 text-xs italic">
-          Note: If there are any chevrons (&lt;) in the first or last name, enter spaces in place of the chevrons.
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Enter Traveler Info",
-    description: "Form to enter traveler information",
-    content: (
-      <div className="p-2 bg-gray-100 rounded-lg">
-        <div className="flex justify-between items-center mb-3">
-          <div className="font-bold">Enter Traveler Info</div>
-          <div className="text-blue-600">Travel History Results</div>
-        </div>
-        <div className="font-semibold mb-3">Enter Your Traveler Info</div>
-        <div className="space-y-3">
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-red-500">*</span>
-              <span className="font-medium">First (Given) Name:</span>
-            </div>
-            <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">Ra</div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-red-500">*</span>
-              <span className="font-medium">Last (Family) Name/Surname:</span>
-            </div>
-            <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">ri</div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-red-500">*</span>
-              <span className="font-medium">Birth Date:</span>
-            </div>
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <div className="text-xs">Month</div>
-                <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">August (08)</div>
-              </div>
-              <div className="flex-1">
-                <div className="text-xs">Day</div>
-                <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">75</div>
-              </div>
-              <div className="flex-1">
-                <div className="text-xs">Year</div>
-                <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center"></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-red-500">*</span>
-              <span className="font-medium">Document Number:</span>
-            </div>
-            <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">V314</div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-red-500">*</span>
-              <span className="font-medium">Document Country of Issuance:</span>
-            </div>
-            <div className="h-8 bg-white rounded border border-gray-300 px-2 flex items-center">India (IND)</div>
-          </div>
-        </div>
-        <div className="flex justify-between mt-4">
-          <Button variant="outline">Cancel</Button>
-          <Button className="bg-blue-600">
-            NEXT <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
-        <div className="text-xs text-center mt-2 text-gray-500">Proceed to your travel history</div>
-      </div>
-    ),
-  },
-  {
-    title: "Travel History Results",
-    description: "View travel history and FOIA information",
-    content: (
-      <div className="p-2 bg-gray-100 rounded-lg">
-        <div className="text-xs mb-2">
-          <div>Document Number: V31</div>
-          <div>Document Country of Issuance: India</div>
-        </div>
-        <div className="flex justify-between items-center mb-3">
-          <div className="text-blue-600">Enter Traveler Info</div>
-          <div className="font-bold">Travel History Results</div>
-        </div>
-        <div className="font-semibold mb-3">Travel History Results</div>
-        <table className="w-full text-xs border-collapse mb-4">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 p-1 text-left">#</th>
-              <th className="border border-gray-300 p-1 text-left">Date</th>
-              <th className="border border-gray-300 p-1 text-left">Type</th>
-              <th className="border border-gray-300 p-1 text-left">Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-1">1</td>
-              <td className="border border-gray-300 p-1">2023-02</td>
-              <td className="border border-gray-300 p-1">Arrival</td>
-              <td className="border border-gray-300 p-1">AUH</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-1">2</td>
-              <td className="border border-gray-300 p-1">2018-03</td>
-              <td className="border border-gray-300 p-1">Departure</td>
-              <td className="border border-gray-300 p-1">NYC</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-1">3</td>
-              <td className="border border-gray-300 p-1">11-18</td>
-              <td className="border border-gray-300 p-1">Arrival</td>
-              <td className="border border-gray-300 p-1">Unavailable</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-1">4</td>
-              <td className="border border-gray-300 p-1">2016-04</td>
-              <td className="border border-gray-300 p-1">Departure</td>
-              <td className="border border-gray-300 p-1">CHI</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="text-xs space-y-2">
-          <p>
-            Do you have a pending Freedom of Information Act (FOIA) request for your U.S. travel history? (FOIA is a law
-            that gives the public the right to request access to records from any federal agency.) learn more
-          </p>
-          <p>
-            A FOIA request is a written or electronic request received by CBP from any individual or entity requesting
-            records including databases held or believed to be held by an agency. You can find additional information
-            about FOIA and FOIA requests at https://www.cbp.gov/site-policy-notices/foia/.
-          </p>
-          <p>
-            If you submitted a formal request through the FOIA office at CBP to obtain travel history and received a
-            FOIA number, you can cancel your request on this website if the information you received satisfies that
-            request. You must enter your FOIA number in the space provided and select the "Request FOIA Cancellation"
-            button.
-          </p>
-          <p>
-            The FOIA case numbers begins with CBP and is followed by the year submitted and 6 alphanumeric characters
-            (e.g. CBP-2014-XXXXXX). The cancel button is only located in the travel history section.
-          </p>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Most Recent I-94 Results",
-    description: "View most recent I-94 information",
-    content: (
-      <div className="p-2 bg-gray-100 rounded-lg">
-        <div className="text-xs mb-2">
-          <div>For: RA RI</div>
-        </div>
-        <div className="flex justify-between items-center mb-3">
-          <div className="font-bold">Most Recent I-94</div>
-          <div className="text-xs text-gray-500">
-            Get your most recent I-94 form to prove your legal visitor status in the United States
-          </div>
-        </div>
-        <div className="flex justify-between items-center mb-3">
-          <div className="text-blue-600">Enter Traveler Info</div>
-          <div className="font-bold">Most Recent I-94 Results</div>
-        </div>
-        <div className="font-semibold mb-3">Most Recent I-94 Results</div>
-        <div className="space-y-3 text-sm">
-          <div>
-            <div className="font-medium">Admission (I-94) Record Number</div>
-            <div>1334A3</div>
-          </div>
-          <div>
-            <div className="font-medium">Most Recent Date of Entry:</div>
-            <div>2023 February 07</div>
-          </div>
-          <div>
-            <div className="font-medium">Class of Admission:</div>
-            <div>H1B</div>
-          </div>
-          <div>
-            <div className="font-medium">Admit Until Date:</div>
-            <div>/06/20</div>
-          </div>
-        </div>
-        <div className="mt-4">
-          <div className="font-medium text-sm">Details provided on the I-94 Information form:</div>
-          <div className="space-y-1 text-xs mt-2">
-            <div>
-              <span className="font-medium">Last/Surname:</span> RA
-            </div>
-            <div>
-              <span className="font-medium">First (Given) Name:</span> RA
-            </div>
-            <div>
-              <span className="font-medium">Birth Date:</span> 5 August
-            </div>
-            <div>
-              <span className="font-medium">Document Number:</span> 1494
-            </div>
-            <div>
-              <span className="font-medium">Country of Citizenship:</span> India
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-between mt-4">
-          <Button variant="outline" className="flex items-center">
-            <ChevronLeft className="h-4 w-4 mr-1" /> PREVIOUS
-          </Button>
-          <Button variant="outline">GET THIS TRAVELER'S TRAVEL HISTORY</Button>
-          <Button>PRINT</Button>
-        </div>
-      </div>
-    ),
-  },
-]
-
 export default function I94History() {
-  const [currentPage, setCurrentPage] = useState(0)
-
-  const nextPage = () => {
-    if (currentPage < documentPages.length - 1) {
-      setCurrentPage(currentPage + 1)
-    }
-  }
-
-  const prevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
-
-  const downloadAttachment = () => {
-    // In a real app, this would download the actual document
-    alert("Document would be downloaded in a real application")
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -373,32 +60,12 @@ export default function I94History() {
                   <div className="relative w-full rounded-lg overflow-hidden border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="bg-white p-2">
                       <div className="flex justify-between items-center mb-2">
-                        <div className="text-sm font-medium">
-                          {documentPages[currentPage].title} - Page {currentPage + 1} of {documentPages.length}
-                        </div>
-                        <div className="flex gap-1">
+                        <div className="text-sm font-medium">Sample Passport Document</div>
+                        <div>
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={prevPage}
-                            disabled={currentPage === 0}
-                            className="h-7 w-7 p-0"
-                          >
-                            <ChevronLeft className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={nextPage}
-                            disabled={currentPage === documentPages.length - 1}
-                            className="h-7 w-7 p-0"
-                          >
-                            <ChevronRight className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={downloadAttachment}
+                            onClick={() => alert("Document would be downloaded in a real application")}
                             className="h-7 w-7 p-0"
                             title="Download document"
                           >
@@ -406,8 +73,20 @@ export default function I94History() {
                           </Button>
                         </div>
                       </div>
-                      <div className="text-xs text-gray-500 mb-2">{documentPages[currentPage].description}</div>
-                      <div className="border border-gray-200 rounded">{documentPages[currentPage].content}</div>
+                      <div className="text-xs text-gray-500 mb-2">
+                        Sample passport document with annotations for I-94 form completion
+                      </div>
+                      <div className="border border-gray-200 rounded overflow-hidden">
+                        <img
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Sample%20Passport%20Copy.jpg-334Gja5yolMUnfeOALuCnWIFmMhRQl.jpeg"
+                          alt="Sample Passport"
+                          className="w-full h-auto"
+                        />
+                      </div>
+                      <div className="mt-2 text-xs text-gray-500">
+                        Note: If there are any chevrons (&lt;) in the first or last name, enter spaces in place of the
+                        chevrons.
+                      </div>
                     </div>
                   </div>
                 </div>
