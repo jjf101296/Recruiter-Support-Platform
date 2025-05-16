@@ -26,66 +26,154 @@ import {
   Award,
   Briefcase,
   Plus,
+  Network,
+  Server,
+  Database,
+  GraduationCap,
 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 // Helper function to extract keywords from job description
 const extractKeywords = (jobDescription: string) => {
-  // Convert job description to lowercase for case-insensitive matching
-  const lowerJobDesc = jobDescription.toLowerCase()
-
-  // Extract job titles
-  const jobTitles = [
-    "software engineer",
-    "software developer",
-    "frontend developer",
-    "backend developer",
-    "full stack developer",
-    "web developer",
-    "mobile developer",
-    "ios developer",
-    "android developer",
-    "devops engineer",
-    "cloud engineer",
-    "data scientist",
-    "data engineer",
-    "machine learning engineer",
-    "ai engineer",
-    "qa engineer",
-    "test engineer",
-    "automation engineer",
-    "site reliability engineer",
-    "sre",
-    "systems administrator",
-    "network engineer",
-    "security engineer",
-    "database administrator",
-    "dba",
-    "product manager",
-    "project manager",
-    "scrum master",
-    "agile coach",
-    "it manager",
-    "cto",
-    "cio",
-    "vp of engineering",
-    "director of engineering",
-    "technical lead",
-    "tech lead",
-    "team lead",
-    "engineering manager",
-  ]
+  // Initialize extracted keywords object
+  const extractedKeywords: any = {
+    jobTitles: [],
+    yearsRequired: [],
+    education: [],
+    certifications: [],
+    networkingSkills: [],
+    securitySkills: [],
+    cloudPlatforms: [],
+    programmingLanguages: [],
+    frameworks: [],
+    databases: [],
+    operatingSystems: [],
+    softwareTools: [],
+    methodologies: [],
+  }
 
   // Extract years of experience patterns
   const yearsRegex = /(\d+)[+]?\s*(year|yr|yrs|years)(\s*of\s*experience)?/gi
   const yearsMatches = [...jobDescription.matchAll(yearsRegex)]
-  const yearsRequired = yearsMatches.map((match) => ({
+  extractedKeywords.yearsRequired = yearsMatches.map((match) => ({
     name: match[0],
     description: `${match[1]}+ years of experience required`,
   }))
 
-  // Extract certificates
-  const certificates = [
+  // Extract education requirements
+  const educationPatterns = [
+    "Bachelor's degree",
+    "Bachelor degree",
+    "BS",
+    "B.S.",
+    "BA",
+    "B.A.",
+    "Master's degree",
+    "Master degree",
+    "MS",
+    "M.S.",
+    "MA",
+    "M.A.",
+    "PhD",
+    "Ph.D.",
+    "Doctorate",
+    "Associate's degree",
+    "Associate degree",
+    "Computer Science",
+    "Information Technology",
+    "Information Systems",
+    "Computer Engineering",
+    "Software Engineering",
+    "Electrical Engineering",
+    "Engineering",
+    "Business Administration",
+    "related field",
+    "related discipline",
+  ]
+
+  // Extract job titles
+  const jobTitlePatterns = [
+    "Network Engineer",
+    "Network Administrator",
+    "Systems Administrator",
+    "Systems Engineer",
+    "IT Support",
+    "IT Specialist",
+    "IT Technician",
+    "Help Desk",
+    "Technical Support",
+    "Support Engineer",
+    "Support Specialist",
+    "Infrastructure Engineer",
+    "Infrastructure Specialist",
+    "Network Operations",
+    "NOC Engineer",
+    "NOC Technician",
+    "Network Analyst",
+    "Network Support",
+    "LAN Administrator",
+    "WAN Engineer",
+    "Network Security Engineer",
+    "Security Engineer",
+    "Security Administrator",
+    "Security Analyst",
+    "Cybersecurity Engineer",
+    "Cybersecurity Analyst",
+    "Information Security",
+    "Cloud Engineer",
+    "Cloud Administrator",
+    "DevOps Engineer",
+    "Site Reliability Engineer",
+    "SRE",
+    "Software Engineer",
+    "Software Developer",
+    "Full Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Web Developer",
+    "Application Developer",
+    "Mobile Developer",
+    "iOS Developer",
+    "Android Developer",
+    "Data Engineer",
+    "Data Scientist",
+    "Database Administrator",
+    "DBA",
+    "Database Engineer",
+    "ETL Developer",
+    "Business Intelligence",
+    "BI Developer",
+    "Data Analyst",
+    "QA Engineer",
+    "QA Analyst",
+    "Test Engineer",
+    "Automation Engineer",
+    "Project Manager",
+    "IT Project Manager",
+    "Program Manager",
+    "Product Manager",
+    "Scrum Master",
+    "Agile Coach",
+    "IT Manager",
+    "IT Director",
+    "CTO",
+    "CIO",
+    "CISO",
+  ]
+
+  // Extract certifications
+  const certificationPatterns = [
+    "CCNA",
+    "CCNP",
+    "CCIE",
+    "Cisco Certified",
+    "CompTIA A+",
+    "CompTIA Network+",
+    "CompTIA Security+",
+    "CompTIA",
+    "MCSA",
+    "MCSE",
+    "Microsoft Certified",
     "AWS Certified",
     "AWS Solutions Architect",
     "AWS Developer",
@@ -101,14 +189,12 @@ const extractKeywords = (jobDescription: string) => {
     "CKAD",
     "CNCF",
     "Docker Certified",
-    "CompTIA",
-    "CompTIA A+",
-    "CompTIA Network+",
-    "CompTIA Security+",
     "CISSP",
     "CEH",
     "CISM",
     "CISA",
+    "OSCP",
+    "Security+",
     "PMP",
     "CAPM",
     "Scrum",
@@ -116,13 +202,6 @@ const extractKeywords = (jobDescription: string) => {
     "CSPO",
     "SAFe",
     "ITIL",
-    "MCSA",
-    "MCSE",
-    "MCTS",
-    "MCITP",
-    "CCNA",
-    "CCNP",
-    "CCIE",
     "Red Hat",
     "RHCE",
     "RHCSA",
@@ -133,11 +212,176 @@ const extractKeywords = (jobDescription: string) => {
     "Java Certified",
     "OCAJP",
     "OCPJP",
-    "Microsoft Certified",
+  ]
+
+  // Extract networking skills
+  const networkingPatterns = [
+    "TCP/IP",
+    "DNS",
+    "DHCP",
+    "DHCP/DNS",
+    "VLANs",
+    "VPNs",
+    "Routing",
+    "Switching",
+    "Firewalls",
+    "Load Balancers",
+    "Subnetting",
+    "OSI Model",
+    "Network Security",
+    "Network Monitoring",
+    "Network Troubleshooting",
+    "LAN",
+    "WAN",
+    "WLAN",
+    "Wireless",
+    "Wi-Fi",
+    "Ethernet",
+    "IPv4",
+    "IPv6",
+    "OSPF",
+    "BGP",
+    "EIGRP",
+    "QoS",
+    "NAT",
+    "PAT",
+    "ACLs",
+    "SDN",
+    "SD-WAN",
+    "MPLS",
+    "VoIP",
+    "SIP",
+    "RTP",
+    "Cisco",
+    "Cisco Meraki",
+    "Juniper",
+    "Palo Alto",
+    "Fortinet",
+    "FortiGate",
+    "SonicWall",
+    "Aruba",
+    "Ubiquiti",
+    "Netgear",
+    "Arista",
+    "F5",
+    "Citrix",
+    "Wireshark",
+    "Packet Tracer",
+    "GNS3",
+  ]
+
+  // Extract security skills
+  const securityPatterns = [
+    "Cybersecurity",
+    "Information Security",
+    "Network Security",
+    "Security Operations",
+    "SOC",
+    "SIEM",
+    "Splunk",
+    "ELK",
+    "Elastic Stack",
+    "LogRhythm",
+    "ArcSight",
+    "QRadar",
+    "Intrusion Detection",
+    "IDS",
+    "Intrusion Prevention",
+    "IPS",
+    "Firewall",
+    "WAF",
+    "DLP",
+    "Data Loss Prevention",
+    "Encryption",
+    "PKI",
+    "Certificate Management",
+    "Vulnerability Management",
+    "Penetration Testing",
+    "Pen Testing",
+    "Ethical Hacking",
+    "Security Auditing",
+    "Compliance",
+    "GDPR",
+    "HIPAA",
+    "PCI DSS",
+    "SOX",
+    "ISO 27001",
+    "NIST",
+    "CIS",
+    "Threat Intelligence",
+    "Malware Analysis",
+    "Incident Response",
+    "Forensics",
+    "Security Awareness",
+    "Zero Trust",
+    "MFA",
+    "Multi-Factor Authentication",
+    "SSO",
+    "Single Sign-On",
+    "IAM",
+    "Identity and Access Management",
+    "Privileged Access",
+    "PAM",
+  ]
+
+  // Extract cloud platforms
+  const cloudPatterns = [
+    "AWS",
+    "Amazon Web Services",
+    "EC2",
+    "S3",
+    "Lambda",
+    "ECS",
+    "EKS",
+    "RDS",
+    "DynamoDB",
+    "CloudFormation",
+    "CloudWatch",
+    "Azure",
+    "Microsoft Azure",
+    "Azure Functions",
+    "Azure VM",
+    "Azure App Service",
+    "Azure DevOps",
+    "Google Cloud",
+    "GCP",
+    "Google Cloud Platform",
+    "GKE",
+    "Cloud Functions",
+    "Compute Engine",
+    "IBM Cloud",
+    "Oracle Cloud",
+    "OCI",
+    "DigitalOcean",
+    "Linode",
+    "Heroku",
+    "Kubernetes",
+    "K8s",
+    "Docker",
+    "Containerization",
+    "Terraform",
+    "Infrastructure as Code",
+    "IaC",
+    "Ansible",
+    "Chef",
+    "Puppet",
+    "Jenkins",
+    "CircleCI",
+    "Travis CI",
+    "GitHub Actions",
+    "GitLab CI",
+    "ArgoCD",
+    "Flux",
+    "Helm",
+    "Istio",
+    "Service Mesh",
+    "Serverless",
+    "Cloud Native",
+    "Microservices",
   ]
 
   // Extract programming languages
-  const programmingLanguages = [
+  const programmingPatterns = [
     "JavaScript",
     "TypeScript",
     "Python",
@@ -166,10 +410,13 @@ const extractKeywords = (jobDescription: string) => {
     "NoSQL",
     "HTML",
     "CSS",
+    "XML",
+    "JSON",
+    "YAML",
   ]
 
   // Extract frameworks and libraries
-  const frameworks = [
+  const frameworkPatterns = [
     "React",
     "Angular",
     "Vue",
@@ -183,6 +430,7 @@ const extractKeywords = (jobDescription: string) => {
     "Spring Boot",
     "ASP.NET",
     ".NET Core",
+    ".NET Framework",
     "Laravel",
     "Symfony",
     "Ruby on Rails",
@@ -201,7 +449,7 @@ const extractKeywords = (jobDescription: string) => {
   ]
 
   // Extract databases
-  const databases = [
+  const databasePatterns = [
     "MySQL",
     "PostgreSQL",
     "Oracle",
@@ -220,48 +468,36 @@ const extractKeywords = (jobDescription: string) => {
     "Firestore",
     "Supabase",
     "CockroachDB",
+    "InfluxDB",
+    "TimescaleDB",
+    "Snowflake",
+    "BigQuery",
+    "Redshift",
   ]
 
-  // Extract cloud platforms and tools
-  const cloudPlatforms = [
-    "AWS",
-    "Amazon Web Services",
-    "EC2",
-    "S3",
-    "Lambda",
-    "ECS",
-    "EKS",
-    "RDS",
-    "DynamoDB",
-    "Azure",
-    "Microsoft Azure",
-    "Azure Functions",
-    "Azure VM",
-    "Azure App Service",
-    "Google Cloud",
-    "GCP",
-    "Google Cloud Platform",
-    "GKE",
-    "Cloud Functions",
-    "Compute Engine",
-    "Kubernetes",
-    "Docker",
-    "Terraform",
-    "CloudFormation",
-    "Ansible",
-    "Chef",
-    "Puppet",
-    "Jenkins",
-    "CircleCI",
-    "Travis CI",
-    "GitHub Actions",
-    "GitLab CI",
-    "ArgoCD",
-    "Flux",
+  // Extract operating systems
+  const osPatterns = [
+    "Windows",
+    "Windows Server",
+    "Linux",
+    "Ubuntu",
+    "Debian",
+    "CentOS",
+    "Red Hat",
+    "RHEL",
+    "Fedora",
+    "SUSE",
+    "macOS",
+    "iOS",
+    "Android",
+    "Unix",
+    "Solaris",
+    "FreeBSD",
+    "ChromeOS",
   ]
 
   // Extract software tools
-  const softwareTools = [
+  const toolPatterns = [
     "Git",
     "GitHub",
     "GitLab",
@@ -289,24 +525,44 @@ const extractKeywords = (jobDescription: string) => {
     "Adobe XD",
     "Photoshop",
     "Illustrator",
+    "Office 365",
+    "Microsoft Office",
+    "Excel",
+    "Word",
+    "PowerPoint",
+    "Outlook",
+    "SharePoint",
+    "OneDrive",
+    "Google Workspace",
+    "Google Docs",
+    "Google Sheets",
+    "Google Drive",
   ]
 
   // Extract methodologies and concepts
-  const methodologies = [
+  const methodologyPatterns = [
     "Agile",
     "Scrum",
     "Kanban",
     "Waterfall",
     "DevOps",
+    "DevSecOps",
     "CI/CD",
+    "Continuous Integration",
+    "Continuous Deployment",
+    "Continuous Delivery",
     "TDD",
+    "Test-Driven Development",
     "BDD",
+    "Behavior-Driven Development",
     "DDD",
+    "Domain-Driven Design",
     "Microservices",
     "Serverless",
     "RESTful",
     "API",
     "SOA",
+    "Service-Oriented Architecture",
     "Event-Driven",
     "Monolith",
     "Cloud Native",
@@ -317,58 +573,109 @@ const extractKeywords = (jobDescription: string) => {
     "DataOps",
     "AIOps",
     "SRE",
+    "Site Reliability Engineering",
     "Observability",
     "Monitoring",
+    "Logging",
+    "Tracing",
+    "Metrics",
   ]
 
-  // Initialize extracted keywords object
-  const extractedKeywords: any = {
-    jobTitles: [],
-    yearsRequired: yearsRequired,
-    certificates: [],
-    programmingLanguages: [],
-    frameworks: [],
-    databases: [],
-    cloudPlatforms: [],
-    softwareTools: [],
-    methodologies: [],
-  }
+  // Function to find patterns in job description
+  const findPatterns = (patterns: string[], category: string) => {
+    const lowerJobDesc = jobDescription.toLowerCase()
+    const found: { [key: string]: boolean } = {}
 
-  // Function to check and add keywords
-  const checkAndAddKeywords = (category: string, keywords: string[]) => {
-    keywords.forEach((keyword) => {
-      if (lowerJobDesc.includes(keyword.toLowerCase())) {
-        extractedKeywords[category].push({
-          name: keyword,
-          description: `Required skill: ${keyword}`,
-        })
+    patterns.forEach((pattern) => {
+      // Create regex that handles word boundaries and special characters
+      const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+      const regex = new RegExp(`\\b${escapedPattern}\\b`, "i")
+
+      if (regex.test(jobDescription)) {
+        // Avoid duplicates by checking if we've already found this pattern
+        if (!found[pattern.toLowerCase()]) {
+          found[pattern.toLowerCase()] = true
+
+          // Find the actual match in the original case
+          const matchRegex = new RegExp(`\\b${escapedPattern}\\b`, "i")
+          const match = jobDescription.match(matchRegex)
+
+          if (match) {
+            extractedKeywords[category].push({
+              name: match[0],
+              description: `Required ${category.replace(/([A-Z])/g, " $1").toLowerCase()}: ${match[0]}`,
+            })
+          }
+        }
       }
     })
+
+    // Special case for education - look for degree + field combinations
+    if (category === "education") {
+      const degreePatterns = [
+        "Bachelor's degree",
+        "Bachelor degree",
+        "BS",
+        "B.S.",
+        "BA",
+        "B.A.",
+        "Master's degree",
+        "Master degree",
+        "MS",
+        "M.S.",
+        "MA",
+        "M.A.",
+        "PhD",
+        "Ph.D.",
+        "Doctorate",
+        "Associate's degree",
+        "Associate degree",
+      ]
+
+      const fieldPatterns = [
+        "Computer Science",
+        "Information Technology",
+        "Information Systems",
+        "Computer Engineering",
+        "Software Engineering",
+        "Electrical Engineering",
+        "Engineering",
+        "Business Administration",
+        "related field",
+        "related discipline",
+      ]
+
+      // Look for degree + field combinations
+      for (const degree of degreePatterns) {
+        for (const field of fieldPatterns) {
+          const combinedPattern = `${degree}\\s+in\\s+${field}|${degree}\\s+.*?\\s+${field}`
+          const regex = new RegExp(combinedPattern, "i")
+          const match = jobDescription.match(regex)
+
+          if (match) {
+            extractedKeywords.education.push({
+              name: match[0],
+              description: `Required education: ${match[0]}`,
+            })
+          }
+        }
+      }
+    }
   }
 
-  // Check for job titles
-  checkAndAddKeywords("jobTitles", jobTitles)
-
-  // Check for certificates
-  checkAndAddKeywords("certificates", certificates)
-
-  // Check for programming languages
-  checkAndAddKeywords("programmingLanguages", programmingLanguages)
-
-  // Check for frameworks
-  checkAndAddKeywords("frameworks", frameworks)
-
-  // Check for databases
-  checkAndAddKeywords("databases", databases)
-
-  // Check for cloud platforms
-  checkAndAddKeywords("cloudPlatforms", cloudPlatforms)
-
-  // Check for software tools
-  checkAndAddKeywords("softwareTools", softwareTools)
-
-  // Check for methodologies
-  checkAndAddKeywords("methodologies", methodologies)
+  // Find patterns for each category
+  findPatterns(jobTitlePatterns, "jobTitles")
+  findPatterns(educationPatterns, "education")
+  findPatterns(certificationPatterns, "certifications")
+  findPatterns(networkingPatterns, "networkingSkills")
+  findPatterns(securityPatterns, "securitySkills")
+  findPatterns(cloudPatterns, "cloudPlatforms")
+  findPatterns(programmingPatterns, "programmingLanguages")
+  findPatterns(frameworkPatterns, "frameworks")
+  findPatterns(databasePatterns, "databases")
+  findPatterns(osPatterns, "operatingSystems")
+  findPatterns(toolPatterns, "softwareTools")
+  findPatterns(methodologyPatterns, "methodologies")
 
   return extractedKeywords
 }
@@ -383,7 +690,31 @@ const generateBooleanString = (keywords: any) => {
     booleanParts.push(`(${titles})`)
   } else {
     // Default job titles if none detected
-    booleanParts.push(`("software engineer" OR "software developer" OR "full stack developer")`)
+    booleanParts.push(`("Network Engineer" OR "Network Administrator" OR "Systems Administrator")`)
+  }
+
+  // Add networking skills
+  if (keywords.networkingSkills.length > 0) {
+    const skills = keywords.networkingSkills.map((skill: any) => `"${skill.name}"`).join(" OR ")
+    booleanParts.push(`(${skills})`)
+  }
+
+  // Add certifications
+  if (keywords.certifications.length > 0) {
+    const certs = keywords.certifications.map((cert: any) => `"${cert.name}"`).join(" OR ")
+    booleanParts.push(`(${certs})`)
+  }
+
+  // Add security skills
+  if (keywords.securitySkills.length > 0) {
+    const skills = keywords.securitySkills.map((skill: any) => `"${skill.name}"`).join(" OR ")
+    booleanParts.push(`(${skills})`)
+  }
+
+  // Add cloud platforms
+  if (keywords.cloudPlatforms.length > 0) {
+    const platforms = keywords.cloudPlatforms.map((platform: any) => `"${platform.name}"`).join(" OR ")
+    booleanParts.push(`(${platforms})`)
   }
 
   // Add programming languages
@@ -392,28 +723,16 @@ const generateBooleanString = (keywords: any) => {
     booleanParts.push(`(${langs})`)
   }
 
-  // Add frameworks
-  if (keywords.frameworks.length > 0) {
-    const fws = keywords.frameworks.map((fw: any) => `"${fw.name}"`).join(" OR ")
-    booleanParts.push(`(${fws})`)
+  // Add operating systems
+  if (keywords.operatingSystems.length > 0) {
+    const systems = keywords.operatingSystems.map((os: any) => `"${os.name}"`).join(" OR ")
+    booleanParts.push(`(${systems})`)
   }
 
-  // Add databases
-  if (keywords.databases.length > 0) {
-    const dbs = keywords.databases.map((db: any) => `"${db.name}"`).join(" OR ")
-    booleanParts.push(`(${dbs})`)
-  }
-
-  // Add cloud platforms
-  if (keywords.cloudPlatforms.length > 0) {
-    const clouds = keywords.cloudPlatforms.map((cloud: any) => `"${cloud.name}"`).join(" OR ")
-    booleanParts.push(`(${clouds})`)
-  }
-
-  // Add methodologies
-  if (keywords.methodologies.length > 0) {
-    const methods = keywords.methodologies.map((method: any) => `"${method.name}"`).join(" OR ")
-    booleanParts.push(`(${methods})`)
+  // Add education
+  if (keywords.education.length > 0) {
+    const edu = keywords.education.map((item: any) => `"${item.name}"`).join(" OR ")
+    booleanParts.push(`(${edu})`)
   }
 
   // Add exclusions
@@ -424,120 +743,81 @@ const generateBooleanString = (keywords: any) => {
 }
 
 // Function to suggest additional keywords based on existing ones
-const suggestAdditionalKeywords = (keywords: any) => {
+const suggestAdditionalKeywords = async (keywords: any) => {
+  // This would normally call an external AI API
+  // For now, we'll simulate with some predefined suggestions
+
   const suggestions: any = {
     jobTitles: [],
-    programmingLanguages: [],
-    frameworks: [],
-    databases: [],
+    certifications: [],
+    networkingSkills: [],
+    securitySkills: [],
     cloudPlatforms: [],
-    methodologies: [],
+    programmingLanguages: [],
+    operatingSystems: [],
+    education: [],
   }
 
   // Suggest related job titles
   keywords.jobTitles.forEach((title: any) => {
-    if (title.name.includes("developer")) {
+    if (title.name.includes("Network Engineer")) {
       suggestions.jobTitles.push({
-        name: title.name.replace("developer", "engineer"),
-        description: "Alternative job title",
+        name: "Network Architect",
+        description: "Senior-level network design role",
       })
     }
-    if (title.name.includes("engineer")) {
+    if (title.name.includes("Administrator")) {
       suggestions.jobTitles.push({
-        name: title.name.replace("engineer", "developer"),
-        description: "Alternative job title",
+        name: title.name.replace("Administrator", "Engineer"),
+        description: "Related job title",
       })
     }
   })
 
-  // Suggest related programming languages
-  keywords.programmingLanguages.forEach((lang: any) => {
-    if (lang.name === "JavaScript") {
-      suggestions.programmingLanguages.push({
-        name: "TypeScript",
-        description: "Strongly typed superset of JavaScript",
+  // Suggest related certifications
+  keywords.certifications.forEach((cert: any) => {
+    if (cert.name === "CCNA") {
+      suggestions.certifications.push({
+        name: "CCNP",
+        description: "Advanced Cisco certification",
       })
     }
-    if (lang.name === "Java") {
-      suggestions.programmingLanguages.push({
-        name: "Kotlin",
-        description: "Modern alternative to Java",
-      })
-    }
-    if (lang.name === "Python") {
-      suggestions.programmingLanguages.push({
-        name: "R",
-        description: "Often used alongside Python for data science",
+    if (cert.name.includes("CompTIA")) {
+      suggestions.certifications.push({
+        name: "CompTIA Security+",
+        description: "Security certification from CompTIA",
       })
     }
   })
 
-  // Suggest related frameworks
-  keywords.frameworks.forEach((fw: any) => {
-    if (fw.name === "React") {
-      suggestions.frameworks.push({
-        name: "Next.js",
-        description: "React framework for production",
+  // Suggest related networking skills
+  keywords.networkingSkills.forEach((skill: any) => {
+    if (skill.name === "TCP/IP") {
+      suggestions.networkingSkills.push({
+        name: "OSI Model",
+        description: "Fundamental networking concept",
       })
     }
-    if (fw.name === "Angular") {
-      suggestions.frameworks.push({
-        name: "RxJS",
-        description: "Reactive Extensions Library used with Angular",
+    if (skill.name === "VLANs") {
+      suggestions.networkingSkills.push({
+        name: "Trunking",
+        description: "Related to VLAN implementation",
       })
     }
-    if (fw.name === "Express") {
-      suggestions.frameworks.push({
-        name: "Nest.js",
-        description: "Progressive Node.js framework",
-      })
-    }
-  })
-
-  // Suggest related databases
-  keywords.databases.forEach((db: any) => {
-    if (db.name === "MySQL") {
-      suggestions.databases.push({
-        name: "PostgreSQL",
-        description: "Advanced open-source database",
-      })
-    }
-    if (db.name === "MongoDB") {
-      suggestions.databases.push({
-        name: "Mongoose",
-        description: "MongoDB object modeling for Node.js",
+    if (skill.name === "Cisco") {
+      suggestions.networkingSkills.push({
+        name: "Cisco IOS",
+        description: "Cisco's network operating system",
       })
     }
   })
 
-  // Suggest related cloud platforms
-  keywords.cloudPlatforms.forEach((cloud: any) => {
-    if (cloud.name === "AWS") {
-      suggestions.cloudPlatforms.push({
-        name: "Terraform",
-        description: "Infrastructure as Code tool often used with AWS",
-      })
-    }
-    if (cloud.name === "Kubernetes") {
-      suggestions.cloudPlatforms.push({
-        name: "Helm",
-        description: "Package manager for Kubernetes",
-      })
-    }
-  })
-
-  // Suggest related methodologies
-  keywords.methodologies.forEach((method: any) => {
-    if (method.name === "Agile") {
-      suggestions.methodologies.push({
-        name: "Scrum",
-        description: "Agile framework for complex projects",
-      })
-    }
-    if (method.name === "CI/CD") {
-      suggestions.methodologies.push({
-        name: "GitOps",
-        description: "Operational framework that takes DevOps best practices",
+  // Suggest related security skills
+  keywords.securitySkills.forEach((skill: any) => {
+    if (skill.name.includes("Firewall")) {
+      suggestions.securitySkills.push({
+        name: "ACLs",
+        description: "Access Control Lists for security",
       })
     }
   })
@@ -573,7 +853,7 @@ export default function BooleanSearch() {
     setIsLoading(true)
     setSuggestedKeywords(null)
 
-    // Simulate API call delay
+    // Extract keywords from job description
     setTimeout(() => {
       const keywords = extractKeywords(jobDescription)
       setExtractedKeywords(keywords)
@@ -586,17 +866,20 @@ export default function BooleanSearch() {
     }, 1500)
   }
 
-  const suggestMoreKeywords = () => {
+  const suggestMoreKeywords = async () => {
     if (!extractedKeywords) return
 
     setIsSuggesting(true)
 
     // Simulate AI suggestion
-    setTimeout(() => {
-      const suggestions = suggestAdditionalKeywords(extractedKeywords)
+    try {
+      const suggestions = await suggestAdditionalKeywords(extractedKeywords)
       setSuggestedKeywords(suggestions)
+    } catch (error) {
+      console.error("Error getting suggestions:", error)
+    } finally {
       setIsSuggesting(false)
-    }, 1500)
+    }
   }
 
   const addSuggestionToString = (suggestion: any, category: string) => {
@@ -727,14 +1010,14 @@ export default function BooleanSearch() {
                       <CardContent>
                         <div className="space-y-4">
                           {/* Job Titles */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Briefcase className="h-4 w-4 text-blue-600" />
-                              Job Titles:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.jobTitles.length > 0 ? (
-                                extractedKeywords.jobTitles.map((keyword: any) => (
+                          {extractedKeywords.jobTitles.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Briefcase className="h-4 w-4 text-blue-600" />
+                                Job Titles:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.jobTitles.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-skill cursor-help">{keyword.name}</span>
@@ -743,22 +1026,20 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No job titles detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
-                          {/* Years Required */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Users className="h-4 w-4 text-amber-600" />
-                              Years of Experience:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.yearsRequired.length > 0 ? (
-                                extractedKeywords.yearsRequired.map((keyword: any) => (
+                          {/* Education */}
+                          {extractedKeywords.education.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <GraduationCap className="h-4 w-4 text-purple-600" />
+                                Education:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.education.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-environment cursor-help">{keyword.name}</span>
@@ -767,24 +1048,42 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">
-                                  No experience requirements detected
-                                </span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
-                          {/* Certificates */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Award className="h-4 w-4 text-green-600" />
-                              Certificates:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.certificates.length > 0 ? (
-                                extractedKeywords.certificates.map((keyword: any) => (
+                          {/* Years Required */}
+                          {extractedKeywords.yearsRequired.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Users className="h-4 w-4 text-amber-600" />
+                                Years of Experience:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.yearsRequired.map((keyword: any) => (
+                                  <Tooltip key={keyword.name}>
+                                    <TooltipTrigger asChild>
+                                      <span className="highlight-environment cursor-help">{keyword.name}</span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-xs">{keyword.description}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Certifications */}
+                          {extractedKeywords.certifications.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Award className="h-4 w-4 text-green-600" />
+                                Certifications:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.certifications.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-concept cursor-help">{keyword.name}</span>
@@ -793,22 +1092,20 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No certificates detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
-                          {/* Programming Languages */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Code className="h-4 w-4 text-green-600" />
-                              Programming Languages:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.programmingLanguages.length > 0 ? (
-                                extractedKeywords.programmingLanguages.map((keyword: any) => (
+                          {/* Networking Skills */}
+                          {extractedKeywords.networkingSkills.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Network className="h-4 w-4 text-blue-600" />
+                                Networking Skills:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.networkingSkills.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-tech cursor-help">{keyword.name}</span>
@@ -817,22 +1114,20 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No programming languages detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
-                          {/* Frameworks */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Zap className="h-4 w-4 text-blue-600" />
-                              Frameworks & Libraries:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.frameworks.length > 0 ? (
-                                extractedKeywords.frameworks.map((keyword: any) => (
+                          {/* Security Skills */}
+                          {extractedKeywords.securitySkills.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Server className="h-4 w-4 text-red-600" />
+                                Security Skills:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.securitySkills.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-tech cursor-help">{keyword.name}</span>
@@ -841,46 +1136,20 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No frameworks detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
-
-                          {/* Databases */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <FileText className="h-4 w-4 text-purple-600" />
-                              Databases:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.databases.length > 0 ? (
-                                extractedKeywords.databases.map((keyword: any) => (
-                                  <Tooltip key={keyword.name}>
-                                    <TooltipTrigger asChild>
-                                      <span className="highlight-tool cursor-help">{keyword.name}</span>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p className="max-w-xs">{keyword.description}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No databases detected</span>
-                              )}
-                            </div>
-                          </div>
+                          )}
 
                           {/* Cloud Platforms */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <FileText className="h-4 w-4 text-purple-600" />
-                              Cloud & DevOps:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.cloudPlatforms.length > 0 ? (
-                                extractedKeywords.cloudPlatforms.map((keyword: any) => (
+                          {extractedKeywords.cloudPlatforms.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Server className="h-4 w-4 text-purple-600" />
+                                Cloud & DevOps:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.cloudPlatforms.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-tool cursor-help">{keyword.name}</span>
@@ -889,22 +1158,108 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No cloud platforms detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
+
+                          {/* Programming Languages */}
+                          {extractedKeywords.programmingLanguages.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Code className="h-4 w-4 text-green-600" />
+                                Programming Languages:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.programmingLanguages.map((keyword: any) => (
+                                  <Tooltip key={keyword.name}>
+                                    <TooltipTrigger asChild>
+                                      <span className="highlight-tech cursor-help">{keyword.name}</span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-xs">{keyword.description}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Frameworks */}
+                          {extractedKeywords.frameworks.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Zap className="h-4 w-4 text-blue-600" />
+                                Frameworks & Libraries:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.frameworks.map((keyword: any) => (
+                                  <Tooltip key={keyword.name}>
+                                    <TooltipTrigger asChild>
+                                      <span className="highlight-tech cursor-help">{keyword.name}</span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-xs">{keyword.description}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Databases */}
+                          {extractedKeywords.databases.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Database className="h-4 w-4 text-purple-600" />
+                                Databases:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.databases.map((keyword: any) => (
+                                  <Tooltip key={keyword.name}>
+                                    <TooltipTrigger asChild>
+                                      <span className="highlight-tool cursor-help">{keyword.name}</span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-xs">{keyword.description}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Operating Systems */}
+                          {extractedKeywords.operatingSystems.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Server className="h-4 w-4 text-blue-600" />
+                                Operating Systems:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.operatingSystems.map((keyword: any) => (
+                                  <Tooltip key={keyword.name}>
+                                    <TooltipTrigger asChild>
+                                      <span className="highlight-tool cursor-help">{keyword.name}</span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-xs">{keyword.description}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                ))}
+                              </div>
+                            </div>
+                          )}
 
                           {/* Software Tools */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <FileText className="h-4 w-4 text-purple-600" />
-                              Software Tools:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.softwareTools.length > 0 ? (
-                                extractedKeywords.softwareTools.map((keyword: any) => (
+                          {extractedKeywords.softwareTools.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <FileText className="h-4 w-4 text-purple-600" />
+                                Software Tools:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.softwareTools.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-tool cursor-help">{keyword.name}</span>
@@ -913,22 +1268,20 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No software tools detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
                           {/* Methodologies */}
-                          <div>
-                            <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
-                              <Lightbulb className="h-4 w-4 text-red-600" />
-                              Methodologies & Concepts:
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {extractedKeywords.methodologies.length > 0 ? (
-                                extractedKeywords.methodologies.map((keyword: any) => (
+                          {extractedKeywords.methodologies.length > 0 && (
+                            <div>
+                              <h3 className="font-semibold capitalize mb-2 flex items-center gap-2">
+                                <Lightbulb className="h-4 w-4 text-red-600" />
+                                Methodologies & Concepts:
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {extractedKeywords.methodologies.map((keyword: any) => (
                                   <Tooltip key={keyword.name}>
                                     <TooltipTrigger asChild>
                                       <span className="highlight-concept cursor-help">{keyword.name}</span>
@@ -937,12 +1290,10 @@ export default function BooleanSearch() {
                                       <p className="max-w-xs">{keyword.description}</p>
                                     </TooltipContent>
                                   </Tooltip>
-                                ))
-                              ) : (
-                                <span className="text-gray-500 text-sm italic">No methodologies detected</span>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
 
                         {/* AI Suggestions Section */}

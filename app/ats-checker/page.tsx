@@ -25,256 +25,632 @@ import {
   Code,
   Zap,
   Award,
-  Briefcase,
+  Network,
+  Server,
+  Database,
+  GraduationCap,
 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 // Helper function to extract IT skills from text
 const extractITSkills = (text: string) => {
-  // Convert to lowercase for case-insensitive matching
-  const lowerText = text.toLowerCase()
-
-  // Define categories and keywords to look for
-  const categories = {
-    "Programming Languages": [
-      "JavaScript",
-      "TypeScript",
-      "Python",
-      "Java",
-      "C#",
-      "C++",
-      "C",
-      "Go",
-      "Golang",
-      "Ruby",
-      "PHP",
-      "Swift",
-      "Kotlin",
-      "Rust",
-      "Scala",
-      "Perl",
-      "Haskell",
-      "Clojure",
-      "Groovy",
-      "R",
-      "MATLAB",
-      "Shell",
-      "Bash",
-      "PowerShell",
-      "SQL",
-      "NoSQL",
-      "HTML",
-      "CSS",
-    ],
-    "Frameworks & Libraries": [
-      "React",
-      "Angular",
-      "Vue",
-      "Svelte",
-      "Next.js",
-      "Nuxt.js",
-      "Express",
-      "Django",
-      "Flask",
-      "Spring",
-      "Spring Boot",
-      "ASP.NET",
-      ".NET Core",
-      "Laravel",
-      "Symfony",
-      "Ruby on Rails",
-      "Node.js",
-      "jQuery",
-      "Bootstrap",
-      "Tailwind CSS",
-      "Material UI",
-      "Redux",
-      "GraphQL",
-      "REST",
-      "SOAP",
-      "gRPC",
-      "WebSockets",
-      "Socket.IO",
-    ],
-    Databases: [
-      "MySQL",
-      "PostgreSQL",
-      "Oracle",
-      "SQL Server",
-      "MongoDB",
-      "Cassandra",
-      "DynamoDB",
-      "Redis",
-      "Elasticsearch",
-      "Couchbase",
-      "Firebase",
-      "Neo4j",
-      "MariaDB",
-      "SQLite",
-      "CosmosDB",
-      "Firestore",
-      "Supabase",
-      "CockroachDB",
-    ],
-    "Cloud & DevOps": [
-      "AWS",
-      "Amazon Web Services",
-      "EC2",
-      "S3",
-      "Lambda",
-      "ECS",
-      "EKS",
-      "RDS",
-      "DynamoDB",
-      "Azure",
-      "Microsoft Azure",
-      "Azure Functions",
-      "Azure VM",
-      "Azure App Service",
-      "Google Cloud",
-      "GCP",
-      "Google Cloud Platform",
-      "GKE",
-      "Cloud Functions",
-      "Compute Engine",
-      "Kubernetes",
-      "Docker",
-      "Terraform",
-      "CloudFormation",
-      "Ansible",
-      "Chef",
-      "Puppet",
-      "Jenkins",
-      "CircleCI",
-      "Travis CI",
-      "GitHub Actions",
-      "GitLab CI",
-      "ArgoCD",
-      "Flux",
-    ],
-    "Software Tools": [
-      "Git",
-      "GitHub",
-      "GitLab",
-      "Bitbucket",
-      "Jira",
-      "Confluence",
-      "Trello",
-      "Asana",
-      "Slack",
-      "Microsoft Teams",
-      "Zoom",
-      "VS Code",
-      "Visual Studio",
-      "IntelliJ",
-      "PyCharm",
-      "WebStorm",
-      "Eclipse",
-      "Xcode",
-      "Android Studio",
-      "Postman",
-      "Insomnia",
-      "Swagger",
-      "Figma",
-      "Sketch",
-      "Adobe XD",
-      "Photoshop",
-      "Illustrator",
-    ],
-    "Methodologies & Concepts": [
-      "Agile",
-      "Scrum",
-      "Kanban",
-      "Waterfall",
-      "DevOps",
-      "CI/CD",
-      "TDD",
-      "BDD",
-      "DDD",
-      "Microservices",
-      "Serverless",
-      "RESTful",
-      "API",
-      "SOA",
-      "Event-Driven",
-      "Monolith",
-      "Cloud Native",
-      "Containerization",
-      "Infrastructure as Code",
-      "GitOps",
-      "MLOps",
-      "DataOps",
-      "AIOps",
-      "SRE",
-      "Observability",
-      "Monitoring",
-    ],
-    Certificates: [
-      "AWS Certified",
-      "AWS Solutions Architect",
-      "AWS Developer",
-      "AWS SysOps",
-      "Azure Certified",
-      "Azure Administrator",
-      "Azure Developer",
-      "Azure Architect",
-      "Google Cloud",
-      "GCP",
-      "Certified Kubernetes",
-      "CKA",
-      "CKAD",
-      "CNCF",
-      "Docker Certified",
-      "CompTIA",
-      "CompTIA A+",
-      "CompTIA Network+",
-      "CompTIA Security+",
-      "CISSP",
-      "CEH",
-      "CISM",
-      "CISA",
-      "PMP",
-      "CAPM",
-      "Scrum",
-      "CSM",
-      "CSPO",
-      "SAFe",
-      "ITIL",
-      "MCSA",
-      "MCSE",
-      "MCTS",
-      "MCITP",
-      "CCNA",
-      "CCNP",
-      "CCIE",
-      "Red Hat",
-      "RHCE",
-      "RHCSA",
-      "Oracle Certified",
-      "OCA",
-      "OCP",
-      "OCE",
-      "Java Certified",
-      "OCAJP",
-      "OCPJP",
-      "Microsoft Certified",
-    ],
+  // Initialize categories object
+  const categories: { [key: string]: string[] } = {
+    "Job Titles": [],
+    Education: [],
+    "Years of Experience": [],
+    Certifications: [],
+    "Networking Skills": [],
+    "Security Skills": [],
+    "Cloud & DevOps": [],
+    "Programming Languages": [],
+    "Frameworks & Libraries": [],
+    Databases: [],
+    "Operating Systems": [],
+    "Software Tools": [],
+    "Methodologies & Concepts": [],
   }
 
-  // Find skills in text
-  const foundSkills: { [key: string]: string[] } = {}
-
-  Object.entries(categories).forEach(([category, skills]) => {
-    foundSkills[category] = []
-
-    skills.forEach((skill) => {
-      if (lowerText.includes(skill.toLowerCase())) {
-        foundSkills[category].push(skill)
-      }
-    })
+  // Extract years of experience patterns
+  const yearsRegex = /(\d+)[+]?\s*(year|yr|yrs|years)(\s*of\s*experience)?/gi
+  const yearsMatches = [...text.matchAll(yearsRegex)]
+  yearsMatches.forEach((match) => {
+    categories["Years of Experience"].push(match[0])
   })
 
-  return foundSkills
+  // Function to find patterns in text
+  const findPatterns = (patterns: string[], category: string) => {
+    patterns.forEach((pattern) => {
+      // Create regex that handles word boundaries and special characters
+      const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+      const regex = new RegExp(`\\b${escapedPattern}\\b`, "i")
+
+      if (regex.test(text)) {
+        // Find the actual match in the original case
+        const matchRegex = new RegExp(`\\b${escapedPattern}\\b`, "i")
+        const match = text.match(matchRegex)
+
+        if (match && !categories[category].includes(match[0])) {
+          categories[category].push(match[0])
+        }
+      }
+    })
+
+    // Special case for education - look for degree + field combinations
+    if (category === "Education") {
+      const degreePatterns = [
+        "Bachelor's degree",
+        "Bachelor degree",
+        "BS",
+        "B.S.",
+        "BA",
+        "B.A.",
+        "Master's degree",
+        "Master degree",
+        "MS",
+        "M.S.",
+        "MA",
+        "M.A.",
+        "PhD",
+        "Ph.D.",
+        "Doctorate",
+        "Associate's degree",
+        "Associate degree",
+      ]
+
+      const fieldPatterns = [
+        "Computer Science",
+        "Information Technology",
+        "Information Systems",
+        "Computer Engineering",
+        "Software Engineering",
+        "Electrical Engineering",
+        "Engineering",
+        "Business Administration",
+        "related field",
+        "related discipline",
+      ]
+
+      // Look for degree + field combinations
+      for (const degree of degreePatterns) {
+        for (const field of fieldPatterns) {
+          const combinedPattern = `${degree}\\s+in\\s+${field}|${degree}\\s+.*?\\s+${field}`
+          const regex = new RegExp(combinedPattern, "i")
+          const match = text.match(regex)
+
+          if (match && !categories[category].includes(match[0])) {
+            categories[category].push(match[0])
+          }
+        }
+      }
+    }
+  }
+
+  // Define patterns for each category
+  const jobTitlePatterns = [
+    "Network Engineer",
+    "Network Administrator",
+    "Systems Administrator",
+    "Systems Engineer",
+    "IT Support",
+    "IT Specialist",
+    "IT Technician",
+    "Help Desk",
+    "Technical Support",
+    "Support Engineer",
+    "Support Specialist",
+    "Infrastructure Engineer",
+    "Infrastructure Specialist",
+    "Network Operations",
+    "NOC Engineer",
+    "NOC Technician",
+    "Network Analyst",
+    "Network Support",
+    "LAN Administrator",
+    "WAN Engineer",
+    "Network Security Engineer",
+    "Security Engineer",
+    "Security Administrator",
+    "Security Analyst",
+    "Cybersecurity Engineer",
+    "Cybersecurity Analyst",
+    "Information Security",
+    "Cloud Engineer",
+    "Cloud Administrator",
+    "DevOps Engineer",
+    "Site Reliability Engineer",
+    "SRE",
+    "Software Engineer",
+    "Software Developer",
+    "Full Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Web Developer",
+    "Application Developer",
+    "Mobile Developer",
+    "iOS Developer",
+    "Android Developer",
+    "Data Engineer",
+    "Data Scientist",
+    "Database Administrator",
+    "DBA",
+    "Database Engineer",
+    "ETL Developer",
+    "Business Intelligence",
+    "BI Developer",
+    "Data Analyst",
+    "QA Engineer",
+    "QA Analyst",
+    "Test Engineer",
+    "Automation Engineer",
+    "Project Manager",
+    "IT Project Manager",
+    "Program Manager",
+    "Product Manager",
+    "Scrum Master",
+    "Agile Coach",
+    "IT Manager",
+    "IT Director",
+    "CTO",
+    "CIO",
+    "CISO",
+  ]
+
+  const educationPatterns = [
+    "Bachelor's degree",
+    "Bachelor degree",
+    "BS",
+    "B.S.",
+    "BA",
+    "B.A.",
+    "Master's degree",
+    "Master degree",
+    "MS",
+    "M.S.",
+    "MA",
+    "M.A.",
+    "PhD",
+    "Ph.D.",
+    "Doctorate",
+    "Associate's degree",
+    "Associate degree",
+    "Computer Science",
+    "Information Technology",
+    "Information Systems",
+    "Computer Engineering",
+    "Software Engineering",
+    "Electrical Engineering",
+    "Engineering",
+    "Business Administration",
+    "related field",
+    "related discipline",
+  ]
+
+  const certificationPatterns = [
+    "CCNA",
+    "CCNP",
+    "CCIE",
+    "Cisco Certified",
+    "CompTIA A+",
+    "CompTIA Network+",
+    "CompTIA Security+",
+    "CompTIA",
+    "MCSA",
+    "MCSE",
+    "Microsoft Certified",
+    "AWS Certified",
+    "AWS Solutions Architect",
+    "AWS Developer",
+    "AWS SysOps",
+    "Azure Certified",
+    "Azure Administrator",
+    "Azure Developer",
+    "Azure Architect",
+    "Google Cloud",
+    "GCP",
+    "Certified Kubernetes",
+    "CKA",
+    "CKAD",
+    "CNCF",
+    "Docker Certified",
+    "CISSP",
+    "CEH",
+    "CISM",
+    "CISA",
+    "OSCP",
+    "Security+",
+    "PMP",
+    "CAPM",
+    "Scrum",
+    "CSM",
+    "CSPO",
+    "SAFe",
+    "ITIL",
+    "Red Hat",
+    "RHCE",
+    "RHCSA",
+    "Oracle Certified",
+    "OCA",
+    "OCP",
+    "OCE",
+    "Java Certified",
+    "OCAJP",
+    "OCPJP",
+  ]
+
+  const networkingPatterns = [
+    "TCP/IP",
+    "DNS",
+    "DHCP",
+    "DHCP/DNS",
+    "VLANs",
+    "VPNs",
+    "Routing",
+    "Switching",
+    "Firewalls",
+    "Load Balancers",
+    "Subnetting",
+    "OSI Model",
+    "Network Security",
+    "Network Monitoring",
+    "Network Troubleshooting",
+    "LAN",
+    "WAN",
+    "WLAN",
+    "Wireless",
+    "Wi-Fi",
+    "Ethernet",
+    "IPv4",
+    "IPv6",
+    "OSPF",
+    "BGP",
+    "EIGRP",
+    "QoS",
+    "NAT",
+    "PAT",
+    "ACLs",
+    "SDN",
+    "SD-WAN",
+    "MPLS",
+    "VoIP",
+    "SIP",
+    "RTP",
+    "Cisco",
+    "Cisco Meraki",
+    "Juniper",
+    "Palo Alto",
+    "Fortinet",
+    "FortiGate",
+    "SonicWall",
+    "Aruba",
+    "Ubiquiti",
+    "Netgear",
+    "Arista",
+    "F5",
+    "Citrix",
+    "Wireshark",
+    "Packet Tracer",
+    "GNS3",
+  ]
+
+  const securityPatterns = [
+    "Cybersecurity",
+    "Information Security",
+    "Network Security",
+    "Security Operations",
+    "SOC",
+    "SIEM",
+    "Splunk",
+    "ELK",
+    "Elastic Stack",
+    "LogRhythm",
+    "ArcSight",
+    "QRadar",
+    "Intrusion Detection",
+    "IDS",
+    "Intrusion Prevention",
+    "IPS",
+    "Firewall",
+    "WAF",
+    "DLP",
+    "Data Loss Prevention",
+    "Encryption",
+    "PKI",
+    "Certificate Management",
+    "Vulnerability Management",
+    "Penetration Testing",
+    "Pen Testing",
+    "Ethical Hacking",
+    "Security Auditing",
+    "Compliance",
+    "GDPR",
+    "HIPAA",
+    "PCI DSS",
+    "SOX",
+    "ISO 27001",
+    "NIST",
+    "CIS",
+    "Threat Intelligence",
+    "Malware Analysis",
+    "Incident Response",
+    "Forensics",
+    "Security Awareness",
+    "Zero Trust",
+    "MFA",
+    "Multi-Factor Authentication",
+    "SSO",
+    "Single Sign-On",
+    "IAM",
+    "Identity and Access Management",
+    "Privileged Access",
+    "PAM",
+  ]
+
+  const cloudPatterns = [
+    "AWS",
+    "Amazon Web Services",
+    "EC2",
+    "S3",
+    "Lambda",
+    "ECS",
+    "EKS",
+    "RDS",
+    "DynamoDB",
+    "CloudFormation",
+    "CloudWatch",
+    "Azure",
+    "Microsoft Azure",
+    "Azure Functions",
+    "Azure VM",
+    "Azure App Service",
+    "Azure DevOps",
+    "Google Cloud",
+    "GCP",
+    "Google Cloud Platform",
+    "GKE",
+    "Cloud Functions",
+    "Compute Engine",
+    "IBM Cloud",
+    "Oracle Cloud",
+    "OCI",
+    "DigitalOcean",
+    "Linode",
+    "Heroku",
+    "Kubernetes",
+    "K8s",
+    "Docker",
+    "Containerization",
+    "Terraform",
+    "Infrastructure as Code",
+    "IaC",
+    "Ansible",
+    "Chef",
+    "Puppet",
+    "Jenkins",
+    "CircleCI",
+    "Travis CI",
+    "GitHub Actions",
+    "GitLab CI",
+    "ArgoCD",
+    "Flux",
+    "Helm",
+    "Istio",
+    "Service Mesh",
+    "Serverless",
+    "Cloud Native",
+    "Microservices",
+  ]
+
+  const programmingPatterns = [
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C#",
+    "C++",
+    "C",
+    "Go",
+    "Golang",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin",
+    "Rust",
+    "Scala",
+    "Perl",
+    "Haskell",
+    "Clojure",
+    "Groovy",
+    "R",
+    "MATLAB",
+    "Shell",
+    "Bash",
+    "PowerShell",
+    "SQL",
+    "NoSQL",
+    "HTML",
+    "CSS",
+    "XML",
+    "JSON",
+    "YAML",
+  ]
+
+  const frameworkPatterns = [
+    "React",
+    "Angular",
+    "Vue",
+    "Svelte",
+    "Next.js",
+    "Nuxt.js",
+    "Express",
+    "Django",
+    "Flask",
+    "Spring",
+    "Spring Boot",
+    "ASP.NET",
+    ".NET Core",
+    ".NET Framework",
+    "Laravel",
+    "Symfony",
+    "Ruby on Rails",
+    "Node.js",
+    "jQuery",
+    "Bootstrap",
+    "Tailwind CSS",
+    "Material UI",
+    "Redux",
+    "GraphQL",
+    "REST",
+    "SOAP",
+    "gRPC",
+    "WebSockets",
+    "Socket.IO",
+  ]
+
+  const databasePatterns = [
+    "MySQL",
+    "PostgreSQL",
+    "Oracle",
+    "SQL Server",
+    "MongoDB",
+    "Cassandra",
+    "DynamoDB",
+    "Redis",
+    "Elasticsearch",
+    "Couchbase",
+    "Firebase",
+    "Neo4j",
+    "MariaDB",
+    "SQLite",
+    "CosmosDB",
+    "Firestore",
+    "Supabase",
+    "CockroachDB",
+    "InfluxDB",
+    "TimescaleDB",
+    "Snowflake",
+    "BigQuery",
+    "Redshift",
+  ]
+
+  const osPatterns = [
+    "Windows",
+    "Windows Server",
+    "Linux",
+    "Ubuntu",
+    "Debian",
+    "CentOS",
+    "Red Hat",
+    "RHEL",
+    "Fedora",
+    "SUSE",
+    "macOS",
+    "iOS",
+    "Android",
+    "Unix",
+    "Solaris",
+    "FreeBSD",
+    "ChromeOS",
+  ]
+
+  const toolPatterns = [
+    "Git",
+    "GitHub",
+    "GitLab",
+    "Bitbucket",
+    "Jira",
+    "Confluence",
+    "Trello",
+    "Asana",
+    "Slack",
+    "Microsoft Teams",
+    "Zoom",
+    "VS Code",
+    "Visual Studio",
+    "IntelliJ",
+    "PyCharm",
+    "WebStorm",
+    "Eclipse",
+    "Xcode",
+    "Android Studio",
+    "Postman",
+    "Insomnia",
+    "Swagger",
+    "Figma",
+    "Sketch",
+    "Adobe XD",
+    "Photoshop",
+    "Illustrator",
+    "Office 365",
+    "Microsoft Office",
+    "Excel",
+    "Word",
+    "PowerPoint",
+    "Outlook",
+    "SharePoint",
+    "OneDrive",
+    "Google Workspace",
+    "Google Docs",
+    "Google Sheets",
+    "Google Drive",
+  ]
+
+  const methodologyPatterns = [
+    "Agile",
+    "Scrum",
+    "Kanban",
+    "Waterfall",
+    "DevOps",
+    "DevSecOps",
+    "CI/CD",
+    "Continuous Integration",
+    "Continuous Deployment",
+    "Continuous Delivery",
+    "TDD",
+    "Test-Driven Development",
+    "BDD",
+    "Behavior-Driven Development",
+    "DDD",
+    "Domain-Driven Design",
+    "Microservices",
+    "Serverless",
+    "RESTful",
+    "API",
+    "SOA",
+    "Service-Oriented Architecture",
+    "Event-Driven",
+    "Monolith",
+    "Cloud Native",
+    "Containerization",
+    "Infrastructure as Code",
+    "GitOps",
+    "MLOps",
+    "DataOps",
+    "AIOps",
+    "SRE",
+    "Site Reliability Engineering",
+    "Observability",
+    "Monitoring",
+    "Logging",
+    "Tracing",
+    "Metrics",
+  ]
+
+  // Find patterns for each category
+  findPatterns(jobTitlePatterns, "Job Titles")
+  findPatterns(educationPatterns, "Education")
+  findPatterns(certificationPatterns, "Certifications")
+  findPatterns(networkingPatterns, "Networking Skills")
+  findPatterns(securityPatterns, "Security Skills")
+  findPatterns(cloudPatterns, "Cloud & DevOps")
+  findPatterns(programmingPatterns, "Programming Languages")
+  findPatterns(frameworkPatterns, "Frameworks & Libraries")
+  findPatterns(databasePatterns, "Databases")
+  findPatterns(osPatterns, "Operating Systems")
+  findPatterns(toolPatterns, "Software Tools")
+  findPatterns(methodologyPatterns, "Methodologies & Concepts")
+
+  return categories
 }
 
 // Helper function to analyze resume against job description
@@ -304,15 +680,13 @@ const analyzeResume = (resume: string, jobDescription: string) => {
   let totalSkills = 0
   let matchedSkills = 0
 
-  Object.values(matched).forEach((skills) => {
-    matchedSkills += skills.length
-  })
-
-  Object.values(missing).forEach((skills) => {
+  Object.values(jobSkills).forEach((skills) => {
     totalSkills += skills.length
   })
 
-  totalSkills += matchedSkills
+  Object.values(matched).forEach((skills) => {
+    matchedSkills += skills.length
+  })
 
   const matchScore = totalSkills > 0 ? Math.round((matchedSkills / totalSkills) * 100) : 0
 
@@ -322,7 +696,7 @@ const analyzeResume = (resume: string, jobDescription: string) => {
   Object.entries(missing).forEach(([category, skills]) => {
     if (skills.length > 0) {
       const topSkills = skills.slice(0, 3).join(", ")
-      suggestions.push(`Add ${category.toLowerCase()} skills: ${topSkills}`)
+      suggestions.push(`Add ${category.toLowerCase()}: ${topSkills}`)
     }
   })
 
@@ -355,14 +729,23 @@ const generateAISuggestions = (analysisResult: any) => {
           suggestions.push(
             `• Add a "Technical Skills" section highlighting your proficiency in ${(skills as string[]).join(", ")}`,
           )
-          suggestions.push(
-            `• Include a project that demonstrates your experience with ${(skills as string[]).slice(0, 2).join(" and ")}`,
-          )
+          if ((skills as string[]).length >= 2) {
+            suggestions.push(
+              `• Include a project that demonstrates your experience with ${(skills as string[]).slice(0, 2).join(" and ")}`,
+            )
+          }
           break
 
-        case "Frameworks & Libraries":
-          suggestions.push(`• Mention experience with ${(skills as string[]).join(", ")} in your work experience`)
-          suggestions.push(`• Add a personal project that uses ${(skills as string[]).slice(0, 2).join(" or ")}`)
+        case "Networking Skills":
+          suggestions.push(`• Highlight your experience with ${(skills as string[]).join(", ")} in your work history`)
+          suggestions.push(`• Add specific examples of network configurations or troubleshooting you've performed`)
+          break
+
+        case "Certifications":
+          suggestions.push(
+            `• Add a dedicated "Certifications" section and consider obtaining ${(skills as string[]).join(", ")}`,
+          )
+          suggestions.push(`• Mention any in-progress certifications or relevant training`)
           break
 
         case "Cloud & DevOps":
@@ -375,9 +758,11 @@ const generateAISuggestions = (analysisResult: any) => {
           suggestions.push(`• Mention database design, optimization, or migration projects`)
           break
 
-        case "Certificates":
-          suggestions.push(`• Consider obtaining certifications in ${(skills as string[]).slice(0, 2).join(" or ")}`)
-          suggestions.push(`• Add a dedicated "Certifications" section to your resume`)
+        case "Education":
+          if ((skills as string[]).some((s) => s.includes("degree"))) {
+            suggestions.push(`• Clearly list your educational qualifications at the top of your resume`)
+            suggestions.push(`• If you don't have the exact degree, highlight equivalent experience or certifications`)
+          }
           break
 
         default:
@@ -606,7 +991,13 @@ export default function ATSChecker() {
                         <Progress
                           value={analysisResult.matchScore}
                           className="h-3 bg-gray-100"
-                          indicatorClassName="bg-gradient-to-r from-green-500 to-blue-500"
+                          indicatorClassName={`bg-gradient-to-r ${
+                            analysisResult.matchScore >= 80
+                              ? "from-green-500 to-green-600"
+                              : analysisResult.matchScore >= 60
+                                ? "from-yellow-500 to-green-500"
+                                : "from-red-500 to-yellow-500"
+                          }`}
                         />
                         <div className="mt-2 text-sm text-gray-500">
                           {analysisResult.matchScore >= 80
@@ -624,12 +1015,13 @@ export default function ATSChecker() {
                             Matched Skills
                           </h3>
                           <div className="space-y-3">
-                            {Object.entries(analysisResult.matched).map(([category, skills]) => (
-                              <div key={category}>
-                                <h4 className="text-sm font-medium text-gray-600">{category}:</h4>
-                                <div className="flex flex-wrap gap-1 mt-1">
-                                  {(skills as string[]).length > 0 ? (
-                                    (skills as string[]).map((skill) => (
+                            {Object.entries(analysisResult.matched).map(([category, skills]) => {
+                              if ((skills as string[]).length === 0) return null
+                              return (
+                                <div key={category}>
+                                  <h4 className="text-sm font-medium text-gray-600">{category}:</h4>
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    {(skills as string[]).map((skill) => (
                                       <Tooltip key={skill}>
                                         <TooltipTrigger asChild>
                                           <span className="match text-xs">{skill}</span>
@@ -638,13 +1030,11 @@ export default function ATSChecker() {
                                           <p>Found in your resume</p>
                                         </TooltipContent>
                                       </Tooltip>
-                                    ))
-                                  ) : (
-                                    <span className="text-gray-500 text-xs italic">None found</span>
-                                  )}
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              )
+                            })}
                           </div>
                         </div>
 
@@ -654,12 +1044,13 @@ export default function ATSChecker() {
                             Missing Skills
                           </h3>
                           <div className="space-y-3">
-                            {Object.entries(analysisResult.missing).map(([category, skills]) => (
-                              <div key={category}>
-                                <h4 className="text-sm font-medium text-gray-600">{category}:</h4>
-                                <div className="flex flex-wrap gap-1 mt-1">
-                                  {(skills as string[]).length > 0 ? (
-                                    (skills as string[]).map((skill) => (
+                            {Object.entries(analysisResult.missing).map(([category, skills]) => {
+                              if ((skills as string[]).length === 0) return null
+                              return (
+                                <div key={category}>
+                                  <h4 className="text-sm font-medium text-gray-600">{category}:</h4>
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    {(skills as string[]).map((skill) => (
                                       <Tooltip key={skill}>
                                         <TooltipTrigger asChild>
                                           <span className="missing text-xs">{skill}</span>
@@ -668,13 +1059,11 @@ export default function ATSChecker() {
                                           <p>Required but not found in your resume</p>
                                         </TooltipContent>
                                       </Tooltip>
-                                    ))
-                                  ) : (
-                                    <span className="text-gray-500 text-xs italic">None missing</span>
-                                  )}
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              )
+                            })}
                           </div>
                         </div>
                       </div>
@@ -755,8 +1144,11 @@ export default function ATSChecker() {
                               <h4 className="text-sm font-medium text-gray-600 flex items-center gap-2">
                                 {category === "Programming Languages" && <Code className="h-4 w-4 text-blue-600" />}
                                 {category === "Frameworks & Libraries" && <Zap className="h-4 w-4 text-green-600" />}
-                                {category === "Certificates" && <Award className="h-4 w-4 text-purple-600" />}
-                                {category === "Cloud & DevOps" && <Briefcase className="h-4 w-4 text-amber-600" />}
+                                {category === "Certifications" && <Award className="h-4 w-4 text-purple-600" />}
+                                {category === "Networking Skills" && <Network className="h-4 w-4 text-amber-600" />}
+                                {category === "Cloud & DevOps" && <Server className="h-4 w-4 text-cyan-600" />}
+                                {category === "Databases" && <Database className="h-4 w-4 text-red-600" />}
+                                {category === "Education" && <GraduationCap className="h-4 w-4 text-indigo-600" />}
                                 {category}:
                               </h4>
                               <div className="flex flex-wrap gap-1 mt-1">
