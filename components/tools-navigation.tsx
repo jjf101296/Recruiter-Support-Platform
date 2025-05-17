@@ -48,7 +48,7 @@ export function ToolsNavigation({
           <ToolLink
             href="/boolean-search"
             icon={<Search size={24} />}
-            title="AI Boolean Search Generator"
+            title="AI Boolean Search String Generator"
             color="border-blue-500"
             bgColor="hover:bg-blue-50"
           />
@@ -62,21 +62,21 @@ export function ToolsNavigation({
           <ToolLink
             href="/us-map"
             icon={<Map size={24} />}
-            title="US Map"
+            title="USA Map"
             color="border-purple-500"
             bgColor="hover:bg-purple-50"
           />
           <ToolLink
             href="/visa-types"
             icon={<Passport size={24} />}
-            title="US VISA Types"
+            title="USA VISA Types"
             color="border-amber-500"
             bgColor="hover:bg-amber-50"
           />
           <ToolLink
             href="/tax-terms"
             icon={<FileText size={24} />}
-            title="US Tax Terms"
+            title="USA Tax Terms"
             color="border-red-500"
             bgColor="hover:bg-red-50"
           />

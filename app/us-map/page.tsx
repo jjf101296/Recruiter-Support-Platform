@@ -531,7 +531,7 @@ export default function USMap() {
       <main className="flex-grow bg-gradient-to-b from-purple-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-purple-600">US States by Time Zone</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-purple-600">USA States by Time Zone</h1>
             <p className="text-gray-600 text-center max-w-3xl mx-auto">
               All 50 US states organized by time zone to help with scheduling and recruitment planning.
             </p>

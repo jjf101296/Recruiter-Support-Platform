@@ -29,6 +29,7 @@ import {
   Server,
   Database,
   GraduationCap,
+  Plus,
 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
@@ -765,6 +766,31 @@ const generateAISuggestions = (analysisResult: any) => {
           }
           break
 
+        case "Job Titles":
+          suggestions.push(`• Align your job title with the position: ${(skills as string[]).join(", ")}`)
+          suggestions.push(`• Highlight relevant experience that matches these roles`)
+          break
+
+        case "Frameworks & Libraries":
+          suggestions.push(`• Add experience with ${(skills as string[]).join(", ")} to your technical skills section`)
+          suggestions.push(`• Include projects that demonstrate your proficiency with these frameworks`)
+          break
+
+        case "Operating Systems":
+          suggestions.push(`• Mention experience with ${(skills as string[]).join(", ")} in your technical skills`)
+          suggestions.push(`• Include system administration or configuration experience with these operating systems`)
+          break
+
+        case "Software Tools":
+          suggestions.push(`• Add proficiency with ${(skills as string[]).join(", ")} to your skills section`)
+          suggestions.push(`• Highlight how you've used these tools in previous roles`)
+          break
+
+        case "Methodologies & Concepts":
+          suggestions.push(`• Include experience with ${(skills as string[]).join(", ")} methodologies`)
+          suggestions.push(`• Demonstrate how you've applied these concepts in previous projects`)
+          break
+
         default:
           suggestions.push(`• Add ${categoryLower} skills: ${(skills as string[]).join(", ")}`)
       }
@@ -776,8 +802,92 @@ const generateAISuggestions = (analysisResult: any) => {
   suggestions.push("• Quantify achievements with metrics where possible (e.g., Reduced load time by 40%)")
   suggestions.push("• Tailor your resume summary to specifically address the job requirements")
   suggestions.push("• Use industry-standard terminology that matches the job description")
+  suggestions.push("• Organize your resume with clear sections: Summary, Skills, Experience, Education, Certifications")
+  suggestions.push("• Ensure your contact information is current and professional")
 
   return suggestions
+}
+
+// Function to get skill definitions
+const getSkillDefinitions = (skills: string[]) => {
+  const definitions: { [key: string]: string } = {
+    // Networking
+    "TCP/IP": "Transmission Control Protocol/Internet Protocol - fundamental communication protocols for the Internet",
+    DNS: "Domain Name System - translates domain names to IP addresses",
+    DHCP: "Dynamic Host Configuration Protocol - automatically assigns IP addresses to devices",
+    VLANs: "Virtual Local Area Networks - logical segmentation of a network",
+    Routing: "Process of selecting paths for network traffic",
+    Switching: "Connecting devices within a local area network",
+    Firewalls: "Security devices that monitor and filter network traffic",
+    "Load Balancers": "Devices that distribute network traffic across multiple servers",
+    Subnetting: "Process of dividing a network into smaller network segments",
+    "OSI Model": "Open Systems Interconnection model - conceptual framework for understanding network interactions",
+
+    // Programming Languages
+    JavaScript: "High-level, interpreted programming language for web development",
+    TypeScript: "Superset of JavaScript that adds static typing",
+    Python: "High-level, interpreted programming language with dynamic semantics",
+    Java: "Object-oriented programming language designed for portability",
+    "C#": "Object-oriented programming language developed by Microsoft",
+    "C++": "Extension of the C programming language with object-oriented features",
+    Go: "Statically typed, compiled programming language designed at Google",
+
+    // Cloud & DevOps
+    AWS: "Amazon Web Services - cloud computing platform",
+    Azure: "Microsoft's cloud computing platform",
+    GCP: "Google Cloud Platform - suite of cloud computing services",
+    Kubernetes: "Container orchestration platform for automating deployment and scaling",
+    Docker: "Platform for developing, shipping, and running applications in containers",
+    "Infrastructure as Code": "Managing and provisioning infrastructure through code instead of manual processes",
+
+    // Certifications
+    CCNA: "Cisco Certified Network Associate - entry-level networking certification",
+    "CompTIA A+": "Entry-level IT certification covering hardware and software troubleshooting",
+    "CompTIA Network+": "Certification covering networking concepts, infrastructure, and troubleshooting",
+    "CompTIA Security+": "Certification covering cybersecurity concepts and best practices",
+    CISSP: "Certified Information Systems Security Professional - advanced security certification",
+
+    // Databases
+    MySQL: "Open-source relational database management system",
+    PostgreSQL: "Advanced open-source relational database",
+    MongoDB: "NoSQL document database with scalability and flexibility",
+    "SQL Server": "Microsoft's relational database management system",
+    Oracle: "Multi-model database management system developed by Oracle",
+
+    // Frameworks
+    React: "JavaScript library for building user interfaces",
+    Angular: "TypeScript-based web application framework",
+    "Vue.js": "Progressive JavaScript framework for building user interfaces",
+    Django: "High-level Python web framework",
+    Flask: "Lightweight Python web framework",
+    "Spring Boot": "Java-based framework for building microservices",
+
+    // Operating Systems
+    Linux: "Open-source Unix-like operating system based on the Linux kernel",
+    "Windows Server": "Microsoft's server operating system",
+    Ubuntu: "Popular Linux distribution based on Debian",
+    "Red Hat": "Commercial Linux distribution developed by Red Hat",
+
+    // Methodologies
+    Agile: "Iterative approach to project management and software development",
+    Scrum: "Agile framework for managing complex projects",
+    DevOps: "Set of practices that combines software development and IT operations",
+    "CI/CD": "Continuous Integration and Continuous Delivery/Deployment practices",
+    Kanban: "Method for managing knowledge work with an emphasis on just-in-time delivery",
+  }
+
+  // Return definitions for the provided skills
+  const result: { [key: string]: string } = {}
+  skills.forEach((skill) => {
+    if (definitions[skill]) {
+      result[skill] = definitions[skill]
+    } else {
+      // Generic definition if specific one not found
+      result[skill] = `${skill} - Technical skill or technology relevant to IT professionals`
+    }
+  })
+
+  return result
 }
 
 export default function ATSChecker() {
@@ -788,6 +898,7 @@ export default function ATSChecker() {
   const [isAnalyzed, setIsAnalyzed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isSuggesting, setIsSuggesting] = useState(false)
+  const [skillDefinitions, setSkillDefinitions] = useState<{ [key: string]: string }>({})
 
   const handleJdFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -823,6 +934,14 @@ export default function ATSChecker() {
     setTimeout(() => {
       const result = analyzeResume(resume, jobDescription)
       setAnalysisResult(result)
+
+      // Generate skill definitions
+      const allSkills = new Set<string>()
+      Object.values(result.jobSkills).forEach((skills: string[]) => {
+        skills.forEach((skill) => allSkills.add(skill))
+      })
+
+      setSkillDefinitions(getSkillDefinitions(Array.from(allSkills)))
       setIsAnalyzed(true)
       setIsLoading(false)
     }, 1500)
@@ -861,7 +980,7 @@ export default function ATSChecker() {
           </div>
 
           <TooltipProvider>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 max-w-6xl mx-auto">
               <div className="space-y-6 animate-fade-in">
                 <Card className="shadow-lg border-t-4 border-green-500">
                   <CardHeader className="bg-gradient-to-r from-green-50 to-green-100">
@@ -1024,10 +1143,17 @@ export default function ATSChecker() {
                                     {(skills as string[]).map((skill) => (
                                       <Tooltip key={skill}>
                                         <TooltipTrigger asChild>
-                                          <span className="match text-xs">{skill}</span>
+                                          <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-800 cursor-help">
+                                            {skill}
+                                          </span>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                          <p>Found in your resume</p>
+                                          <div className="max-w-xs">
+                                            <p className="font-semibold">{skill}</p>
+                                            <p className="text-sm mt-1">
+                                              {skillDefinitions[skill] || "Found in your resume"}
+                                            </p>
+                                          </div>
                                         </TooltipContent>
                                       </Tooltip>
                                     ))}
@@ -1053,10 +1179,31 @@ export default function ATSChecker() {
                                     {(skills as string[]).map((skill) => (
                                       <Tooltip key={skill}>
                                         <TooltipTrigger asChild>
-                                          <span className="missing text-xs">{skill}</span>
+                                          <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-800 cursor-help flex items-center">
+                                            {skill}
+                                            <Button
+                                              size="icon"
+                                              variant="ghost"
+                                              className="h-4 w-4 ml-1 p-0 text-red-600 hover:bg-red-100 hover:text-red-800"
+                                              onClick={() => {
+                                                // Copy to clipboard functionality for missing skills
+                                                navigator.clipboard.writeText(skill)
+                                              }}
+                                            >
+                                              <Plus className="h-2 w-2" />
+                                            </Button>
+                                          </span>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                          <p>Required but not found in your resume</p>
+                                          <div className="max-w-xs">
+                                            <p className="font-semibold">{skill}</p>
+                                            <p className="text-sm mt-1">
+                                              {skillDefinitions[skill] || "Required but not found in your resume"}
+                                            </p>
+                                            <p className="text-xs mt-2 text-gray-500">
+                                              Click + to copy this skill to clipboard
+                                            </p>
+                                          </div>
                                         </TooltipContent>
                                       </Tooltip>
                                     ))}
