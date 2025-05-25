@@ -282,24 +282,20 @@ export default function Home() {
                 Buy me a coffee
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-sm">
               <DialogHeader>
-                <DialogTitle className="text-center text-xl font-bold text-gray-800">
-                  Support Recruiter Support Platform
-                </DialogTitle>
+                <DialogTitle className="text-center text-lg font-bold text-gray-800">Support Us</DialogTitle>
               </DialogHeader>
-              <div className="flex flex-col items-center space-y-4 p-4">
-                <div className="text-center">
-                  <p className="text-gray-600 mb-4">Scan the QR code below to support us via PhonePe</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-lg border">
+              <div className="flex flex-col items-center space-y-2 p-2">
+                <p className="text-sm text-gray-600 mb-2 text-center">Scan QR code to support via PhonePe</p>
+                <div className="bg-white p-2 rounded-lg shadow-lg border">
                   <img
                     src="/images/phonepe-qr.jpg"
                     alt="PhonePe QR Code for J John Francis"
-                    className="w-80 h-auto mx-auto"
+                    className="w-48 h-auto mx-auto"
                   />
                 </div>
-                <p className="text-sm text-gray-500 text-center">Thank you for your support! 🙏</p>
+                <p className="text-xs text-gray-500 text-center">Thank you! 🙏</p>
               </div>
             </DialogContent>
           </Dialog>
