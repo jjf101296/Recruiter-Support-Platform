@@ -264,19 +264,21 @@ export default function Home() {
         </div>
 
         {/* Support Section */}
-        <div className="text-center py-12 border-t border-gray-200">
-          <p className="text-lg text-gray-700 mb-6">
-            Enjoying using Recruiter Support Platform? Consider supporting us with our buymeacoffee link below! Thank
-            You!
+        <div className="text-center py-4 border-t border-gray-200">
+          <p className="text-sm text-gray-700 mb-2">
+            <span className="font-bold">Enjoying using Recruiter Support Platform?</span>
+            <br />
+            Consider supporting us with our buymeacoffee link below! Thank You!
           </p>
 
           <Dialog>
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300"
+                size="sm"
+                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-none shadow-md hover:shadow-lg transition-all duration-300"
               >
-                <Coffee className="h-4 w-4 mr-2" />
+                <Coffee className="h-3 w-3 mr-1" />
                 Buy me a coffee
               </Button>
             </DialogTrigger>
