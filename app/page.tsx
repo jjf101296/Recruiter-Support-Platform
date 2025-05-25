@@ -4,6 +4,8 @@ import Link from "next/link"
 import { Search, FileCheck, Map, StampIcon as Passport, FileText, Plane, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Coffee } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export default function Home() {
   return (
@@ -259,6 +261,46 @@ export default function Home() {
               </Card>
             </div>
           </div>
+        </div>
+
+        {/* Support Section */}
+        <div className="text-center py-12 border-t border-gray-200">
+          <p className="text-lg text-gray-700 mb-6">
+            Enjoying using Recruiter Support Platform? Consider supporting us with our buymeacoffee link below! Thank
+            You!
+          </p>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Coffee className="h-4 w-4 mr-2" />
+                Buy me a coffee
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-center text-xl font-bold text-gray-800">
+                  Support Recruiter Support Platform
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col items-center space-y-4 p-4">
+                <div className="text-center">
+                  <p className="text-gray-600 mb-4">Scan the QR code below to support us via PhonePe</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-lg border">
+                  <img
+                    src="/images/phonepe-qr.jpg"
+                    alt="PhonePe QR Code for J John Francis"
+                    className="w-80 h-auto mx-auto"
+                  />
+                </div>
+                <p className="text-sm text-gray-500 text-center">Thank you for your support! 🙏</p>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </main>
 
