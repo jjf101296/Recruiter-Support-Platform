@@ -11,16 +11,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react"
 
 export default function Home() {
-  const [copiedText, setCopiedText] = useState("")
+  const [copiedField, setCopiedField] = useState<string | null>(null)
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopiedText(text)
-      setTimeout(() => setCopiedText(""), 2000)
-    } catch (err) {
-      console.error("Failed to copy text: ", err)
-    }
+  const copyToClipboard = (text: string, field: string) => {
+    navigator.clipboard.writeText(text)
+    setCopiedField(field)
+    setTimeout(() => setCopiedField(null), 2000)
   }
 
   return (
@@ -135,7 +131,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
                   <CardTitle className="flex items-center gap-2 text-purple-700">
                     <Map className="h-5 w-5" />
-                    USA Map
+                    US Map
                   </CardTitle>
                   <CardDescription>Interactive map of all 50 US states by time zone</CardDescription>
                 </CardHeader>
@@ -171,7 +167,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100">
                   <CardTitle className="flex items-center gap-2 text-amber-700">
                     <Passport className="h-5 w-5" />
-                    USA VISA Types
+                    US VISA Types
                   </CardTitle>
                   <CardDescription>Comprehensive guide to US visa categories</CardDescription>
                 </CardHeader>
@@ -207,7 +203,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-red-50 to-red-100">
                   <CardTitle className="flex items-center gap-2 text-red-700">
                     <FileText className="h-5 w-5" />
-                    USA Tax Terms
+                    US Tax Terms
                   </CardTitle>
                   <CardDescription>Essential tax information for recruiters and job seekers</CardDescription>
                 </CardHeader>
@@ -302,9 +298,9 @@ export default function Home() {
                 <DialogTitle className="text-center text-lg font-bold text-gray-800">Support Us</DialogTitle>
               </DialogHeader>
               <div className="flex flex-col items-center space-y-3 p-3">
-                {/* PhonePe QR Code Section */}
+                {/* QR Code Section */}
                 <div className="text-center">
-                  <p className="text-sm text-gray-600 mb-2 font-medium">Scan QR code via PhonePe</p>
+                  <p className="text-sm text-gray-600 mb-2">Scan QR code for PhonePe</p>
                   <div className="bg-white p-2 rounded-lg shadow-lg border">
                     <img
                       src="/images/phonepe-qr.jpg"
@@ -319,20 +315,38 @@ export default function Home() {
 
                 {/* Bank Details Section */}
                 <div className="w-full">
-                  <p className="text-sm text-gray-600 mb-2 font-medium text-center">Or transfer directly to bank</p>
-                  <div className="bg-gray-50 p-3 rounded-lg border text-left space-y-1">
+                  <p className="text-sm font-semibold text-gray-700 mb-2 text-center">Or transfer directly:</p>
+                  <div className="bg-gray-50 p-3 rounded-lg space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-600">Bank:</span>
-                      <span className="text-xs font-medium">Tamilnadu Mercantile Bank</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-medium">Tamilnadu Mercantile Bank</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0"
+                          onClick={() => copyToClipboard("Tamilnadu Mercantile Bank", "bank")}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
+
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-600">Branch:</span>
-                      <span className="text-xs font-medium">Ayapakkam Branch</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-medium">Ayapakkam</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0"
+                          onClick={() => copyToClipboard("Ayapakkam", "branch")}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-600">Name:</span>
-                      <span className="text-xs font-medium">John Francis J</span>
-                    </div>
+
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-600">Account:</span>
                       <div className="flex items-center gap-1">
@@ -341,12 +355,28 @@ export default function Home() {
                           variant="ghost"
                           size="sm"
                           className="h-4 w-4 p-0"
-                          onClick={() => copyToClipboard("370100050301187")}
+                          onClick={() => copyToClipboard("370100050301187", "account")}
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">Name:</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-medium">John Francis J</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0"
+                          onClick={() => copyToClipboard("John Francis J", "name")}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-600">IFSC:</span>
                       <div className="flex items-center gap-1">
@@ -355,7 +385,7 @@ export default function Home() {
                           variant="ghost"
                           size="sm"
                           className="h-4 w-4 p-0"
-                          onClick={() => copyToClipboard("TMBL0000370")}
+                          onClick={() => copyToClipboard("TMBL0000370", "ifsc")}
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
@@ -363,6 +393,12 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+
+                {copiedField && (
+                  <p className="text-xs text-green-600 text-center">
+                    {copiedField.charAt(0).toUpperCase() + copiedField.slice(1)} copied to clipboard!
+                  </p>
+                )}
 
                 <p className="text-xs text-gray-500 text-center">Thank you for your support! 🙏</p>
               </div>
