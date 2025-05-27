@@ -1,13 +1,28 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
 import { Search, FileCheck, Map, StampIcon as Passport, FileText, Plane, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Coffee } from "lucide-react"
+import { Coffee, Copy } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useState } from "react"
 
 export default function Home() {
+  const [copiedText, setCopiedText] = useState("")
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedText(text)
+      setTimeout(() => setCopiedText(""), 2000)
+    } catch (err) {
+      console.error("Failed to copy text: ", err)
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 to-white">
       <Header />
@@ -120,7 +135,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100">
                   <CardTitle className="flex items-center gap-2 text-purple-700">
                     <Map className="h-5 w-5" />
-                    US Map
+                    USA Map
                   </CardTitle>
                   <CardDescription>Interactive map of all 50 US states by time zone</CardDescription>
                 </CardHeader>
@@ -156,7 +171,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100">
                   <CardTitle className="flex items-center gap-2 text-amber-700">
                     <Passport className="h-5 w-5" />
-                    US VISA Types
+                    USA VISA Types
                   </CardTitle>
                   <CardDescription>Comprehensive guide to US visa categories</CardDescription>
                 </CardHeader>
@@ -192,7 +207,7 @@ export default function Home() {
                 <CardHeader className="bg-gradient-to-r from-red-50 to-red-100">
                   <CardTitle className="flex items-center gap-2 text-red-700">
                     <FileText className="h-5 w-5" />
-                    US Tax Terms
+                    USA Tax Terms
                   </CardTitle>
                   <CardDescription>Essential tax information for recruiters and job seekers</CardDescription>
                 </CardHeader>
@@ -282,20 +297,74 @@ export default function Home() {
                 Buy me a coffee
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm">
+            <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-center text-lg font-bold text-gray-800">Support Us</DialogTitle>
               </DialogHeader>
-              <div className="flex flex-col items-center space-y-2 p-2">
-                <p className="text-sm text-gray-600 mb-2 text-center">Scan QR code to support via PhonePe</p>
-                <div className="bg-white p-2 rounded-lg shadow-lg border">
-                  <img
-                    src="/images/phonepe-qr.jpg"
-                    alt="PhonePe QR Code for J John Francis"
-                    className="w-48 h-auto mx-auto"
-                  />
+              <div className="flex flex-col items-center space-y-3 p-3">
+                {/* PhonePe QR Code Section */}
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 mb-2 font-medium">Scan QR code via PhonePe</p>
+                  <div className="bg-white p-2 rounded-lg shadow-lg border">
+                    <img
+                      src="/images/phonepe-qr.jpg"
+                      alt="PhonePe QR Code for J John Francis"
+                      className="w-40 h-auto mx-auto"
+                    />
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 text-center">Thank you! 🙏</p>
+
+                {/* Divider */}
+                <div className="w-full border-t border-gray-200 my-2"></div>
+
+                {/* Bank Details Section */}
+                <div className="w-full">
+                  <p className="text-sm text-gray-600 mb-2 font-medium text-center">Or transfer directly to bank</p>
+                  <div className="bg-gray-50 p-3 rounded-lg border text-left space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">Bank:</span>
+                      <span className="text-xs font-medium">Tamilnadu Mercantile Bank</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">Branch:</span>
+                      <span className="text-xs font-medium">Ayapakkam Branch</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">Name:</span>
+                      <span className="text-xs font-medium">John Francis J</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">Account:</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-medium">370100050301187</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0"
+                          onClick={() => copyToClipboard("370100050301187")}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-600">IFSC:</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-medium">TMBL0000370</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0"
+                          onClick={() => copyToClipboard("TMBL0000370")}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-500 text-center">Thank you for your support! 🙏</p>
               </div>
             </DialogContent>
           </Dialog>
